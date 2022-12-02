@@ -87,7 +87,6 @@ resource "google_cloudbuild_trigger" "github-trigger" {
   filename = "cloudbuild.yaml"
   github {
     owner = "cotyhoroshko"
-#    enterpriseConfigResourceName = "cotyhoroshko"
     name  = "task-cf"
     push {
       branch = "^master"
