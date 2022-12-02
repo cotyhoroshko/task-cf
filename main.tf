@@ -80,6 +80,21 @@ resource "google_bigquery_table" "task-cf-table" {
   schema = file("schemas/bq_table_schema/task-cf-raw.json")
 }
 
+resource "google_cloudbuild_trigger" "github-trigger" {
+  project = var.project_id
+#  location = var.region
+  name = "github-updates-trigger"
+  filename = "cloudbuild.yaml"
+  github {
+    owner = "cotyhoroshko"
+#    enterpriseConfigResourceName = "cotyhoroshko"
+    name  = "task-cf"
+    push {
+      branch = "^master"
+    }
+  }
+}
+
 #locals {
 #  env = substr(var.project_id, -3, -1)
 #}
