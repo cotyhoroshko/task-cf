@@ -40,7 +40,7 @@ steps:
       - 'BACKEND_PREFIX=task-cf'
 
   - id: 'tf plan/apply'
-    name: 'gcr.io/task-cf-370408/terraform'
+    name: 'gcr.io/task-cf-370913/terraform'
     args:
       - '${_TF_ACTION}'
     env:
