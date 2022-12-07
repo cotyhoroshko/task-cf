@@ -16,6 +16,25 @@ resource "google_storage_bucket" "task-cf-bucket" {
   force_destroy = true
 }
 
+resource "google_bigquery_dataset" "task_cf_dataset" {
+  dataset_id  = var.dataset_id
+  description = "This dataset is public"
+
+  depends_on = [
+    google_storage_bucket.task-cf-bucket
+  ]
+}
+
+resource "google_bigquery_table" "task-cf-table" {
+  dataset_id = var.dataset_id
+  table_id   = var.table_id
+  schema     = file("schemas/bq_table_schema/task-cf-raw.json")
+
+  depends_on = [
+    google_bigquery_dataset.task_cf_dataset
+  ]
+}
+
 data "archive_file" "source" {
   type        = "zip"
   source_dir  = "./function"
@@ -69,22 +88,6 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   depends_on = [
     google_cloudfunctions_function.task-cf-function
   ]
-}
-
-resource "google_bigquery_dataset" "task_cf_dataset" {
-  dataset_id  = var.dataset_id
-  description = "This dataset is publics"
-  location    = "US"
-}
-
-resource "google_bigquery_table" "task-cf-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.table_id
-  schema     = file("schemas/bq_table_schema/task-cf-raw.json")
-
-#  depends_on = [
-#    google_bigquery_dataset.task_cf_dataset
-#  ]
 }
 
 resource "google_cloudbuild_trigger" "github-trigger" {
