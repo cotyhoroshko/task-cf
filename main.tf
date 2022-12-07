@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    prefix = "cf/task-cf"
+      bucket = "task-cf"
   }
 }
 
@@ -53,7 +53,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   }
 
   depends_on = [
-    google_bigquery_dataset.task-cf-dataset,
+    google_bigquery_dataset.cf-dataset,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.zip
   ]
@@ -72,7 +72,7 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   ]
 }
 
-resource "google_bigquery_dataset" "task-cf-dataset" {
+resource "google_bigquery_dataset" "cf-dataset" {
   dataset_id  = var.dataset_id
   description = "This dataset is publics"
   location    = "US"
@@ -84,7 +84,7 @@ resource "google_bigquery_table" "task-cf-table" {
   schema     = file("schemas/bq_table_schema/task-cf-raw.json")
 
   depends_on = [
-    google_bigquery_dataset.task-cf-dataset
+    google_bigquery_dataset.cf-dataset
   ]
 }
 
