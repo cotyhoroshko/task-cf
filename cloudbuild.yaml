@@ -19,7 +19,8 @@ steps:
     name: 'gcr.io/task-cf-370408/terraform'
     dir: '${_TF_DIR}'
     args:
-      - '${_TF_ACTION}'
+      - pwd
+#      - '${_TF_ACTION}'
     env:
       - 'PULL_REQUEST_ID=$_PR_NUMBER'
       - 'BRANCH=$BRANCH_NAME'
