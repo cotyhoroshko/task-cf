@@ -10,7 +10,12 @@ steps:
     dir: '${_TF_DIR}'
     script: |
       #!/usr/bin/env bash
-      tree
+      echo $_TF_DIR
+      echo ################
+      export C=$(ls)
+      echo ################
+      echo $C
+      
 
 #  - id: 'pre-deployment-checks'
 #    name: 'gcr.io/some-project/common-build'
