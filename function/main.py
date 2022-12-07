@@ -51,7 +51,7 @@ def main(request):
                            convert_timestamp_to_sql_date_time(timestamp),
                            event)
 
-        return "S", 204
+        return "R", 204
 
     return {"error": f"{request.method} method is not supported"}, 500, \
            {'Content-Type': 'application/json; charset=utf-8'}

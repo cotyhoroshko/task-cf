@@ -53,7 +53,6 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   }
 
   depends_on = [
-    google_bigquery_dataset.cf-dataset,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.zip
   ]
