@@ -5,6 +5,14 @@ substitutions:
   _TF_ACTION: 'apply'
 
 steps:
+  - id: 'where'
+    name: 'bash'
+    dir: '${_TF_DIR}'
+    script: |
+      #!/usr/bin/env bash
+      pwd
+      ls
+
 #  - id: 'pre-deployment-checks'
 #    name: 'gcr.io/some-project/common-build'
 #    dir: '${_PY_DIR}'
@@ -14,18 +22,17 @@ steps:
 #      - '_LINT_OMIT_FILES=tests/*'
 #    env:
 #      - 'TF_ACTION=$_TF_ACTION'
-
-  - id: 'tf plan/apply'
-    name: 'gcr.io/task-cf-370408/terraform'
-    dir: '${_TF_DIR}'
-    args:
-      - pwd
+#
+#  - id: 'tf plan/apply'
+#    name: 'gcr.io/task-cf-370408/terraform'
+#    dir: '${_TF_DIR}'
+#    args:
 #      - '${_TF_ACTION}'
-    env:
-      - 'PULL_REQUEST_ID=$_PR_NUMBER'
-      - 'BRANCH=$BRANCH_NAME'
-      - 'EXECUTOR=terraform'
-      - 'BACKEND_PREFIX=task-cf'
+#    env:
+#      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+#      - 'BRANCH=$BRANCH_NAME'
+#      - 'EXECUTOR=terraform'
+#      - 'BACKEND_PREFIX=task-cf'
 
 options:
   substitution_option: 'ALLOW_LOOSE'
