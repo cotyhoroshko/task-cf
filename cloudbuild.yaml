@@ -12,6 +12,9 @@ steps:
     script: |
       #!/usr/bin/env bash
       echo $_TF_DIR
+      ls -A
+      ls
+      pwd
       echo "################"
       export C=$(ls)
       echo "################"
