@@ -32,6 +32,7 @@ steps:
   - id: 'tf plan/apply'
     name: 'gcr.io/task-cf-370408/terraform'
     args:
+      - init
       - '${_TF_ACTION}'
     env:
       - 'PULL_REQUEST_ID=$_PR_NUMBER'
