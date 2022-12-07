@@ -29,10 +29,19 @@ steps:
 #    env:
 #      - 'TF_ACTION=$_TF_ACTION'
 #
+  - id: 'tf init'
+    name: 'gcr.io/task-cf-370408/terraform'
+    args:
+      - 'init'
+    env:
+      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+      - 'BRANCH=$BRANCH_NAME'
+      - 'EXECUTOR=terraform'
+      - 'BACKEND_PREFIX=task-cf'
+
   - id: 'tf plan/apply'
     name: 'gcr.io/task-cf-370408/terraform'
     args:
-      - "init"
       - '${_TF_ACTION}'
     env:
       - 'PULL_REQUEST_ID=$_PR_NUMBER'
