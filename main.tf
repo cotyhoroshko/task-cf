@@ -77,6 +77,10 @@ resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
   schema = file("schemas/bq_table_schema/task-cf-raw.json")
+
+  depends_on = [
+    google_bigquery_dataset.task-cf-dataset
+  ]
 }
 
 resource "google_cloudbuild_trigger" "github-trigger" {
