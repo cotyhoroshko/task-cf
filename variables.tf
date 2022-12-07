@@ -16,8 +16,14 @@ variable "zone" {
   description = "Zone"
 }
 
-variable "dataset_id" {
+variable "dataset_idd" {
   default     = "cf_dataset"
+  type        = string
+  description = "Dataset ID"
+}
+
+variable "dataset_id" {
+  default     = "task_cf_dataset"
   type        = string
   description = "Dataset ID"
 }
