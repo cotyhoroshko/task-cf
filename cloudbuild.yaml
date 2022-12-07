@@ -23,7 +23,7 @@ steps:
     env:
       - 'PULL_REQUEST_ID=$_PR_NUMBER'
       - 'BRANCH=$BRANCH_NAME'
-      - 'EXECUTOR=terragrunt'
+      - 'EXECUTOR=terraform'
       - 'BACKEND_PREFIX=task-cf'
 
 options:
