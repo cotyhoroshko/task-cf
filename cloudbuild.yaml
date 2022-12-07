@@ -10,7 +10,6 @@ steps:
     dir: '${_TF_DIR}'
     script: |
       #!/usr/bin/env bash
-      pwd
       ls
 
 #  - id: 'pre-deployment-checks'
