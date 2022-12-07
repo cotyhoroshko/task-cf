@@ -1,23 +1,22 @@
 substitutions:
   _APP: 'task-cf'
-  _PY_DIR: 'task-cf/function'
-  _TF_DIR: 'task-cf'
+  _PY_DIR: 'function'
   _TF_ACTION: 'apply'
 
 steps:
-  - id: 'where'
-    name: 'ubuntu'
-#    args: ['bash', '-c', 'echo "===================================================="']
-    script: |
-      #!/usr/bin/env bash
-      echo $_TF_DIR
-      ls -A
-      ls
-      pwd
-      echo "################"
-      export C=$(ls)
-      echo "################"
-      echo $C
+#  - id: 'where'
+#    name: 'ubuntu'
+##    args: ['bash', '-c', 'echo "===================================================="']
+#    script: |
+#      #!/usr/bin/env bash
+#      echo $_TF_DIR
+#      ls -A
+#      ls
+#      pwd
+#      echo "################"
+#      export C=$(ls)
+#      echo "################"
+#      echo $C
 
 
 #  - id: 'pre-deployment-checks'
@@ -30,16 +29,15 @@ steps:
 #    env:
 #      - 'TF_ACTION=$_TF_ACTION'
 #
-#  - id: 'tf plan/apply'
-#    name: 'gcr.io/task-cf-370408/terraform'
-#    dir: '${_TF_DIR}'
-#    args:
-#      - '${_TF_ACTION}'
-#    env:
-#      - 'PULL_REQUEST_ID=$_PR_NUMBER'
-#      - 'BRANCH=$BRANCH_NAME'
-#      - 'EXECUTOR=terraform'
-#      - 'BACKEND_PREFIX=task-cf'
+  - id: 'tf plan/apply'
+    name: 'gcr.io/task-cf-370408/terraform'
+    args:
+      - '${_TF_ACTION}'
+    env:
+      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+      - 'BRANCH=$BRANCH_NAME'
+      - 'EXECUTOR=terraform'
+      - 'BACKEND_PREFIX=task-cf'
 
 options:
   substitution_option: 'ALLOW_LOOSE'
