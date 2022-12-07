@@ -7,7 +7,6 @@ substitutions:
 steps:
   - id: 'where'
     name: 'ubuntu'
-    dir: '${_TF_DIR}'
 #    args: ['bash', '-c', 'echo "===================================================="']
     script: |
       #!/usr/bin/env bash
