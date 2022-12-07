@@ -20,7 +20,7 @@ steps:
 #      echo $C
 
   - id: 'auth'
-    name: 'gcloud'
+    name: gcloud
     args:
       - "auth application-default login"
 
