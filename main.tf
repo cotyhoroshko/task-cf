@@ -82,9 +82,9 @@ resource "google_bigquery_table" "task-cf-table" {
   table_id   = var.table_id
   schema     = file("schemas/bq_table_schema/task-cf-raw.json")
 
-  depends_on = [
-    google_bigquery_dataset.task_cf_dataset
-  ]
+#  depends_on = [
+#    google_bigquery_dataset.task_cf_dataset
+#  ]
 }
 
 resource "google_cloudbuild_trigger" "github-trigger" {
