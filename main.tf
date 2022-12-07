@@ -10,6 +10,7 @@ provider "google" {
   zone    = var.zone
 }
 
+
 resource "google_storage_bucket" "task-cf-bucket" {
   name          = "${var.project_id}-bucket"
   location      = var.region
