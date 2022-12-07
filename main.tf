@@ -74,7 +74,7 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 
 resource "google_bigquery_dataset" "task-cf-dataset" {
   dataset_id  = var.dataset_id
-  description = "This dataset is public"
+  description = "This dataset is publics"
   location    = "US"
 }
 
