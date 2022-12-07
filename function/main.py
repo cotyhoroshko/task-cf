@@ -47,13 +47,11 @@ def main(request):
 
         timestamp = time.time()
         dataset = f"{PROJECT_ID}.{DATASET_ID}.{OUTPUT_TABLE}"
-        print("###", dataset)
-        # dataset = "task-cf-370408.task_cf_dataset.task_cf_table"
         store_data_into_bq(dataset,
                            convert_timestamp_to_sql_date_time(timestamp),
                            event)
 
-        return "", 204
+        return "S", 204
 
     return {"error": f"{request.method} method is not supported"}, 500, \
            {'Content-Type': 'application/json; charset=utf-8'}
