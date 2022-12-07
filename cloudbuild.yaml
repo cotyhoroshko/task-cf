@@ -10,6 +10,7 @@ steps:
 #    script: |
 #      #!/usr/bin/env bash
 #      echo $_TF_DIR
+#      gcloud
 #      ls -A
 #      ls
 #      pwd
@@ -18,6 +19,10 @@ steps:
 #      echo "################"
 #      echo $C
 
+  - id: 'auth'
+    name: 'gcloud'
+    args:
+      - "auth application-default login"
 
 #  - id: 'pre-deployment-checks'
 #    name: 'gcr.io/some-project/common-build'

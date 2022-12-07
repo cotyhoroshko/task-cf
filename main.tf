@@ -19,21 +19,17 @@ resource "google_storage_bucket" "task-cf-bucket" {
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
   description = "This dataset is public"
-
-  depends_on = [
-    google_storage_bucket.task-cf-bucket
-  ]
 }
 
-#resource "google_bigquery_table" "task-cf-table" {
-#  dataset_id = var.dataset_id
-#  table_id   = var.table_id
-#  schema     = file("schemas/bq_table_schema/task-cf-raw.json")
-#
-#  depends_on = [
-#    google_bigquery_dataset.task_cf_dataset
-#  ]
-#}
+resource "google_bigquery_table" "task-cf-table" {
+  dataset_id = var.dataset_id
+  table_id   = var.table_id
+  schema     = file("schemas/bq_table_schema/task-cf-raw.json")
+
+  depends_on = [
+    google_bigquery_dataset.task_cf_dataset
+  ]
+}
 
 data "archive_file" "source" {
   type        = "zip"
@@ -68,7 +64,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
     FUNCTION_REGION = var.region
     GCP_PROJECT     = var.project_id
     DATASET_ID      = var.dataset_id
-    OUTPUT_TABLE    = "google_bigquery_table.task-cf-table.table_id"
+    OUTPUT_TABLE    = google_bigquery_table.task-cf-table.table_id
   }
 
   depends_on = [
