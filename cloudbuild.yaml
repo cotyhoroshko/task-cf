@@ -8,14 +8,15 @@ steps:
   - id: 'where'
     name: 'ubuntu'
     dir: '${_TF_DIR}'
+#    args: ['bash', '-c', 'echo "===================================================="']
     script: |
       #!/usr/bin/env bash
       echo $_TF_DIR
-      echo ################
+      echo "################"
       export C=$(ls)
-      echo ################
+      echo "################"
       echo $C
-      
+
 
 #  - id: 'pre-deployment-checks'
 #    name: 'gcr.io/some-project/common-build'
