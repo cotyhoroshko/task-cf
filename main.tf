@@ -1,6 +1,7 @@
 terraform {
   backend "gcs" {
     prefix = "cf/task-cf"
+    bucket = google_storage_bucket.task-cf-bucket
   }
 }
 
