@@ -65,6 +65,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
     GCP_PROJECT     = var.project_id
     DATASET_ID      = var.dataset_id
     OUTPUT_TABLE    = google_bigquery_table.task-cf-table.table_id
+    PUBSUB_TOPIC_NAME = google_pubsub_topic.cf-subtask-topic.name
   }
 
   depends_on = [
@@ -97,4 +98,15 @@ resource "google_cloudbuild_trigger" "github-trigger" {
       branch = "^master"
     }
   }
+}
+
+resource "google_pubsub_topic" "cf-subtask-topic" {
+  project = var.project_id
+  name = "cf-subtask-topic"
+}
+
+resource "google_pubsub_subscription" "cf-subtask-sub" {
+  project = var.project_id
+  name    = "cf-subtask-sub"
+  topic   = google_pubsub_topic.cf-subtask-topic.name
 }

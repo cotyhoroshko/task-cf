@@ -4,10 +4,10 @@ from os import getenv
 import logging
 import time
 import json
-from datetime import datetime, time as date_time
+
 import requests
 
-from google.cloud import bigquery
+from google.cloud import bigquery, pubsub_v1
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,6 +15,7 @@ FUNCTION_REGION = getenv("FUNCTION_REGION")
 PROJECT_ID = getenv("GCP_PROJECT")
 DATASET_ID = getenv("DATASET_ID")
 OUTPUT_TABLE = getenv("OUTPUT_TABLE")
+PUBSUB_TOPIC_NAME = getenv("PUBSUB_TOPIC_NAME")
 
 
 def convert_timestamp_to_sql_date_time(value):
@@ -33,6 +34,10 @@ def store_data_into_bq(dataset, timestamp, event):
     except AttributeError as error:
         logging.error(f"Query job could not be completed: {error}")
 
+def publish_to_pubsub_topic(data: str) -> None:
+    publisher = pubsub_v1.PublisherClient()
+    topic_path = publisher.topic_path(PROJECT_ID, PUBSUB_TOPIC_NAME)
+    publisher.publish(topic_path, data.encode("utf-8"))
 
 def main(request):
     logging.info("Request: %s", request)
@@ -51,7 +56,8 @@ def main(request):
                            convert_timestamp_to_sql_date_time(timestamp),
                            event)
 
-        return "R", 204
+        publish_to_pubsub_topic(event)
+        return "", 204
 
     return {"error": f"{request.method} method is not supported"}, 500, \
            {'Content-Type': 'application/json; charset=utf-8'}
