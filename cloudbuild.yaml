@@ -34,35 +34,56 @@ steps:
 #    env:
 #      - 'TF_ACTION=$_TF_ACTION'
 #
+#  - id: 'tf init'
+#    name: 'gcr.io/task-cf-370913/terraform'
+#    args:
+#      - 'init'
+#    env:
+#      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+#      - 'BRANCH=$BRANCH_NAME'
+#      - 'EXECUTOR=terraform'
+#      - 'BACKEND_PREFIX=task-cf'
+#
+#  - id: 'tf plan'
+#    name: 'gcr.io/task-cf-370913/terraform'
+#    args:
+#      - 'plan'
+#    env:
+#      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+#      - 'BRANCH=$BRANCH_NAME'
+#      - 'EXECUTOR=terraform'
+#      - 'BACKEND_PREFIX=task-cf'
+#
+#  - id: 'tf plan/apply'
+#    name: 'gcr.io/task-cf-370913/terraform'
+#    args:
+#      - '${_TF_ACTION}'
+#    env:
+#      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+#      - 'BRANCH=$BRANCH_NAME'
+#      - 'EXECUTOR=terraform'
+#      - 'BACKEND_PREFIX=task-cf'
+
   - id: 'tf init'
-    name: 'gcr.io/task-cf-370913/terraform'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
     args:
-      - 'init'
-    env:
-      - 'PULL_REQUEST_ID=$_PR_NUMBER'
-      - 'BRANCH=$BRANCH_NAME'
-      - 'EXECUTOR=terraform'
-      - 'BACKEND_PREFIX=task-cf'
+      - '-c'
+      - 'terraform init -upgrade'
 
   - id: 'tf plan'
-    name: 'gcr.io/task-cf-370913/terraform'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
     args:
-      - 'plan'
-    env:
-      - 'PULL_REQUEST_ID=$_PR_NUMBER'
-      - 'BRANCH=$BRANCH_NAME'
-      - 'EXECUTOR=terraform'
-      - 'BACKEND_PREFIX=task-cf'
+      - '-c'
+      - 'terraform plan -out=plan.out'
 
-  - id: 'tf plan/apply'
-    name: 'gcr.io/task-cf-370913/terraform'
+  - id: 'tf apply'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
     args:
-      - '${_TF_ACTION}'
-    env:
-      - 'PULL_REQUEST_ID=$_PR_NUMBER'
-      - 'BRANCH=$BRANCH_NAME'
-      - 'EXECUTOR=terraform'
-      - 'BACKEND_PREFIX=task-cf'
+      - '-c'
+      - 'terraform apply plan.out'
 
 options:
   substitution_option: 'ALLOW_LOOSE'
