@@ -7,13 +7,15 @@ terraform {
 provider "google" {
   project = var.project_id
   region  = var.region
-  zone    = var.zone
 }
 
 resource "google_storage_bucket" "task-cf-bucket" {
-  name          = "${var.project_id}-bucket"
-  location      = var.region
+  name          = "project-id-bucket"
+  location      = var.location
   force_destroy = true
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 resource "google_bigquery_dataset" "task_cf_dataset" {
@@ -26,6 +28,7 @@ resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
   schema     = file("schemas/bq_table_schema/task-cf-raw.json")
+  deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task_cf_dataset
@@ -44,11 +47,6 @@ resource "google_storage_bucket_object" "zip" {
 
   name   = "src-${data.archive_file.source.output_md5}.zip"
   bucket = google_storage_bucket.task-cf-bucket.name
-
-  depends_on = [
-    google_storage_bucket.task-cf-bucket,
-    data.archive_file.source
-  ]
 }
 
 resource "google_cloudfunctions_function" "task-cf-function" {
