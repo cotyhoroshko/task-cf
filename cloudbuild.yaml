@@ -19,10 +19,10 @@ steps:
 #      echo "################"
 #      echo $C
 
-  - id: 'auth'
-    name: gcloud
-    args:
-      - "auth application-default login"
+#  - id: 'auth'
+#    name: gcloud
+#    args:
+#      - "auth application-default login"
 
 #  - id: 'pre-deployment-checks'
 #    name: 'gcr.io/some-project/common-build'
