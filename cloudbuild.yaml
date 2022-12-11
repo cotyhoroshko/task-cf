@@ -44,6 +44,16 @@ steps:
       - 'EXECUTOR=terraform'
       - 'BACKEND_PREFIX=task-cf'
 
+  - id: 'tf plan'
+    name: 'gcr.io/task-cf-370913/terraform'
+    args:
+      - 'plan'
+    env:
+      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+      - 'BRANCH=$BRANCH_NAME'
+      - 'EXECUTOR=terraform'
+      - 'BACKEND_PREFIX=task-cf'
+
   - id: 'tf plan/apply'
     name: 'gcr.io/task-cf-370913/terraform'
     args:
