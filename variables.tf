@@ -16,6 +16,12 @@ variable "zone" {
   description = "Zone"
 }
 
+variable "location" {
+  default     = "US"
+  type        = string
+  description = "Location"
+}
+
 variable "dataset_idd" {
   default     = "cf_dataset"
   type        = string

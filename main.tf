@@ -18,7 +18,8 @@ resource "google_storage_bucket" "task-cf-bucket" {
 
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
-  description = "This dataset is public"
+  location = var.location
+  description = "Public dataset"
 }
 
 resource "google_bigquery_table" "task-cf-table" {
