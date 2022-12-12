@@ -24,6 +24,12 @@ resource "google_bigquery_dataset" "task_cf_dataset" {
   description = "Public dataset"
 }
 
+resource "google_bigquery_dataset_iam_member" "owner" {
+  dataset_id  = google_bigquery_dataset.task_cf_dataset.dataset_id
+  role = "roles/bigquery.dataOwner"
+  member = "allUsers"
+}
+
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
