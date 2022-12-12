@@ -8,6 +8,8 @@ steps:
     name: 'gcr.io/cloud-builders/gcloud'
     args:
       - "auth"
+      - "application-default"
+      - "login"
 #      - "auth application-default login"
 #    script: |
 #      !/usr/bin/env bash
