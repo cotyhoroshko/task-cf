@@ -80,14 +80,14 @@ steps:
     entrypoint: sh
     args:
       - '-c'
-      - 'terraform plan -out=plan.out'
+      - 'terraform plan -lock=false -out=plan.out'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
     args:
       - '-c'
-      - 'terraform apply plan.out'
+      - 'terraform apply -lock=false plan.out'
 
 options:
   substitution_option: 'ALLOW_LOOSE'
