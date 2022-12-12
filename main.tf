@@ -64,7 +64,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
     GCP_PROJECT     = var.project_id
     DATASET_ID      = var.dataset_id
     OUTPUT_TABLE    = google_bigquery_table.task-cf-table.table_id
-    PUBSUB_TOPIC_NAME = google_pubsub_topic.cf-subtask-topic.name
+#    PUBSUB_TOPIC_NAME = google_pubsub_topic.cf-subtask-topic.name
   }
 
   depends_on = [
