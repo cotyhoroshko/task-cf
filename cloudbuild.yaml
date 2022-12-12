@@ -5,11 +5,12 @@ substitutions:
 
 steps:
   - id: 'where'
-    name: 'ubuntu'
-##    args: ['bash', '-c', 'echo "===================================================="']
-    script: |
-      #!/usr/bin/env bash
-      gcloud auth application-default login
+    name: 'gcloud'
+    args:
+      - "auth application-default login"
+#    script: |
+#      !/usr/bin/env bash
+#      gcloud
 #      gcloud
 #      ls -A
 #      ls
