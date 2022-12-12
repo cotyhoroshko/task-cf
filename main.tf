@@ -24,6 +24,12 @@ resource "google_storage_bucket_iam_member" "member" {
   member = "allUsers"
 }
 
+resource "google_storage_default_object_access_control" "public_rule" {
+  bucket = google_storage_bucket.task-cf-bucket.name
+  role   = "OWNER"
+  entity = "allUsers"
+}
+
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
   location = var.location
