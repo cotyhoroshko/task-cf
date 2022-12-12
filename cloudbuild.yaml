@@ -4,12 +4,12 @@ substitutions:
   _TF_ACTION: 'apply'
 
 steps:
-#  - id: 'where'
-#    name: 'ubuntu'
+  - id: 'where'
+    name: 'ubuntu'
 ##    args: ['bash', '-c', 'echo "===================================================="']
-#    script: |
-#      #!/usr/bin/env bash
-#      echo $_TF_DIR
+    script: |
+      #!/usr/bin/env bash
+      gcloud auth application-default login
 #      gcloud
 #      ls -A
 #      ls

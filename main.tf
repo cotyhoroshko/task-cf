@@ -86,15 +86,15 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   ]
 }
 
-resource "google_service_account" "cloudbuild_service_account" {
-  account_id = "my-service-account"
-}
-
-resource "google_project_iam_member" "act_as" {
-  project = var.project_id
-  role    = "roles/iam.serviceAccountUser"
-  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-}
+#resource "google_service_account" "cloudbuild_service_account" {
+#  account_id = "my-service-account"
+#}
+#
+#resource "google_project_iam_member" "act_as" {
+#  project = var.project_id
+#  role    = "roles/iam.serviceAccountUser"
+#  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
+#}
 
 #resource "google_project_iam_member" "logs_writer" {
 #  project = data.google_project.project.project_id
@@ -106,7 +106,7 @@ resource "google_cloudbuild_trigger" "github-trigger" {
   project  = var.project_id
   name     = "github-updates-trigger"
   filename = "cloudbuild.yaml"
-  service_account = google_service_account.cloudbuild_service_account.id
+#  service_account = google_service_account.cloudbuild_service_account.id
   github {
     owner = "cotyhoroshko"
     name  = "task-cf"
