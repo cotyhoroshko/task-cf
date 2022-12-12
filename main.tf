@@ -151,7 +151,6 @@ resource "google_pubsub_topic" "cf-subtask-topic" {
 resource "google_pubsub_topic_iam_member" "member" {
   project = google_pubsub_topic.cf-subtask-topic.project
   topic = google_pubsub_topic.cf-subtask-topic.name
-#  role = "roles/pubsub.admin"
   role = "roles/owner"
   member = "allUsers"
 }
@@ -167,3 +166,11 @@ resource "google_pubsub_subscription_iam_member" "sub-owner" {
   role = "roles/owner"
   member = "allUsers"
 }
+
+#guration: googleapi: Error 403: Caller is missing permission 'iam.serviceaccounts.actAs'
+#on service account task-cf-370913@appspot.gserviceaccount.com. Grant the role
+#'roles/iam.serviceAccountUser' to the caller on the service account task-cf-370913@appspot.gserviceaccount.com. You can do that by running
+#'gcloud iam service-accounts add-iam-policy-binding task-cf-370913@appspot.gserviceaccount.com --member MEMBER --role roles/iam.serviceAccountUser'
+#where MEMBER has a prefix like 'user:' or 'serviceAccount:'. Details and instructions for the Cloud Console can be found at
+#https://cloud.google.com/functions/docs/reference/iam/roles#additional-configuration. Please visit https://cloud.google.com/functions/docs/troubleshooting
+#for in-depth troubleshooting documentation., forbidden
