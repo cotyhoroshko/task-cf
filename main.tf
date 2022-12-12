@@ -149,3 +149,9 @@ resource "google_pubsub_subscription" "cf-subtask-sub" {
   name    = "cf-subtask-sub"
   topic   = google_pubsub_topic.cf-subtask-topic.name
 }
+
+resource "google_pubsub_subscription_iam_member" "sub-owner" {
+  subscription = google_pubsub_subscription.cf-subtask-sub.name
+  role = "roles/owner"
+  member = "allUsers"
+}
