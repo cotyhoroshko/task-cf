@@ -135,6 +135,13 @@ resource "google_pubsub_topic" "cf-subtask-topic" {
   name = "cf-subtask-topic"
 }
 
+resource "google_pubsub_topic_iam_member" "member" {
+  project = google_pubsub_topic.cf-subtask-topic.project
+  topic = google_pubsub_topic.cf-subtask-topic.name
+  role = "roles/pubsub.admin"
+  member = "allUsers"
+}
+
 resource "google_pubsub_subscription" "cf-subtask-sub" {
   project = var.project_id
   name    = "cf-subtask-sub"
