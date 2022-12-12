@@ -84,7 +84,8 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   region         = google_cloudfunctions_function.task-cf-function.region
   cloud_function = google_cloudfunctions_function.task-cf-function.name
 
-  role   = "roles/cloudfunctions.invoker"
+#  role   = "roles/cloudfunctions.invoker"
+  role   = "roles/owner"
   member = "allUsers"
 
   depends_on = [
@@ -138,7 +139,8 @@ resource "google_pubsub_topic" "cf-subtask-topic" {
 resource "google_pubsub_topic_iam_member" "member" {
   project = google_pubsub_topic.cf-subtask-topic.project
   topic = google_pubsub_topic.cf-subtask-topic.name
-  role = "roles/pubsub.admin"
+#  role = "roles/pubsub.admin"
+  role = "roles/owner"
   member = "allUsers"
 }
 
