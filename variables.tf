@@ -49,8 +49,6 @@ variable "force_destroy" {
   default = true
 }
 
-
-
 variable "bucket_id" {
   type = string
   default = "task-cf-bucket1"
