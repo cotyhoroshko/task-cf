@@ -18,11 +18,11 @@ resource "google_storage_bucket" "task-cf-bucket" {
   }
 }
 
-resource "google_bigquery_dataset" "task_cf_dataset" {
-  dataset_id  = var.dataset_id
-  location = var.location
-  description = "Public dataset"
-}
+#resource "google_bigquery_dataset" "task_cf_dataset" {
+#  dataset_id  = var.dataset_id
+#  location = var.location
+#  description = "Public dataset"
+#}
 
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
@@ -30,9 +30,9 @@ resource "google_bigquery_table" "task-cf-table" {
   schema     = file("schemas/bq_table_schema/task-cf-raw.json")
   deletion_protection = false
 
-  depends_on = [
-    google_bigquery_dataset.task_cf_dataset
-  ]
+#  depends_on = [
+#    google_bigquery_dataset.task_cf_dataset
+#  ]
 }
 
 data "archive_file" "source" {
@@ -99,13 +99,13 @@ resource "google_cloudbuild_trigger" "github-trigger" {
   }
 }
 
-resource "google_pubsub_topic" "cf-subtask-topic" {
-  project = var.project_id
-  name = "cf-subtask-topic"
-}
-
-resource "google_pubsub_subscription" "cf-subtask-sub" {
-  project = var.project_id
-  name    = "cf-subtask-sub"
-  topic   = google_pubsub_topic.cf-subtask-topic.name
-}
+#resource "google_pubsub_topic" "cf-subtask-topic" {
+#  project = var.project_id
+#  name = "cf-subtask-topic"
+#}
+#
+#resource "google_pubsub_subscription" "cf-subtask-sub" {
+#  project = var.project_id
+#  name    = "cf-subtask-sub"
+#  topic   = google_pubsub_topic.cf-subtask-topic.name
+#}
