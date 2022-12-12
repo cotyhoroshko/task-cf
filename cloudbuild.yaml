@@ -5,7 +5,7 @@ substitutions:
 
 steps:
   - id: 'where'
-    name: 'gcloud'
+    name: 'gcr.io/cloud-builders/gcloud'
     args:
       - "auth application-default login"
 #    script: |
