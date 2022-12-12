@@ -56,7 +56,7 @@ resource "google_bigquery_table" "task-cf-table" {
 data "archive_file" "source" {
   type        = "zip"
   source_dir  = "./function"
-  output_path = "/tmp/function.zip"
+  output_path = "function.zip"
 }
 
 resource "google_storage_bucket_object" "zip" {
