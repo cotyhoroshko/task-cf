@@ -57,6 +57,7 @@ def main(request):
                            event)
 
         publish_to_pubsub_topic(event)
+
         return "", 204
 
     return {"error": f"{request.method} method is not supported"}, 500, \
