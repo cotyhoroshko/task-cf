@@ -86,15 +86,15 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   ]
 }
 
-resource "google_service_account" "cloudbuild_service_account" {
-  account_id = "my-service-account"
-}
-
-resource "google_bigquery_dataset_iam_member" "dataset-editor" {
-  dataset_id = var.dataset_id
-  role    = "roles/bigquery.dataEditor"
-  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-}
+#resource "google_service_account" "cloudbuild_service_account" {
+#  account_id = "my-service-account"
+#}
+#
+#resource "google_bigquery_dataset_iam_member" "dataset-editor" {
+#  dataset_id = var.dataset_id
+#  role    = "roles/bigquery.dataEditor"
+#  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
+#}
 
 #resource "google_project_iam_member" "project-editor" {
 #  project = var.dataset_id
@@ -106,7 +106,8 @@ resource "google_cloudbuild_trigger" "github-trigger" {
   project  = var.project_id
   name     = "github-updates-trigger"
   filename = "cloudbuild.yaml"
-  service_account = google_service_account.cloudbuild_service_account.id
+#  service_account = "andrii.mruts.knm.2019@lpnu.ua"
+#  service_account = google_service_account.cloudbuild_service_account.id
 
   github {
     owner = "cotyhoroshko"
@@ -116,11 +117,11 @@ resource "google_cloudbuild_trigger" "github-trigger" {
     }
   }
 
-  depends_on = [
-    google_service_account.cloudbuild_service_account,
+#  depends_on = [
+#    google_service_account.cloudbuild_service_account,
 #    google_project_iam_member.project-editor,
-    google_bigquery_dataset_iam_member.dataset-editor
-  ]
+#    google_bigquery_dataset_iam_member.dataset-editor
+#  ]
 }
 
 resource "google_pubsub_topic" "cf-subtask-topic" {
