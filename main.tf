@@ -194,20 +194,22 @@ resource "google_pubsub_subscription_iam_member" "sub-owner" {
   member = "allUsers"
 }
 
-resource "google_service_account" "sa" {
-  account_id   = "my-service-account"
-  display_name = "A service account"
-}
-
-resource "google_service_account_iam_binding" "admin-account-iam" {
-  service_account_id = google_service_account.sa.name
-  role               = "roles/iam.serviceAccountUser"
-
-  members = [
-    "user:andrii.mruts.knm.2019@lpnu.ua",
-    "serviceAccount:task-cf-370913@appspot.gserviceaccount.com"
-  ]
-}
+#resource "google_service_account" "sa" {
+#  account_id   = "my-service-account"
+#  display_name = "A service account"
+#}
+#
+#resource "google_service_account_iam_binding" "admin-account-iam" {
+#  service_account_id = google_service_account.sa.name
+#  role               = "roles/iam.serviceAccountUser"
+#
+#  members = [
+#    "user:andrii.mruts.knm.2019@lpnu.ua",
+##    "serviceAccount:task-cf-370913@appspot.gserviceaccount.com",
+#    "serviceAccount:task-cf-372314@appspot.gserviceaccount.com",
+#    "serviceAccount:projects/task-cf-372314/serviceAccounts/my-service-account@task-cf-372314.iam.gserviceaccount.com"
+#  ]
+#}
 
 #guration: googleapi: Error 403: Caller is missing permission 'iam.serviceaccounts.actAs'
 #on service account task-cf-370913@appspot.gserviceaccount.com. Grant the role
