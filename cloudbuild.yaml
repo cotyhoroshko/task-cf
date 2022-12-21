@@ -1,6 +1,6 @@
 steps:
   - id: "Activate virtual environment venv"
-    name: 'gcr.io/your_project_id/dataflow-python3:latest'
+    name: 'hashicorp/dataflow-python3:latest'
     entrypoint: '/bin/bash'
     args: [ '-c', 'source /venv/bin/activate' ]
     waitFor: [ '-' ]
