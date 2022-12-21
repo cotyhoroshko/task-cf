@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-      bucket = "task-cf"
+      bucket = "cf-task"
   }
 }
 
@@ -37,7 +37,7 @@ provider "google" {
 #}
 
 resource "google_storage_bucket" "task-cf-bucket" {
-  name          = "project-id-bucket"
+  name          = "bucket-project-id"
   location      = var.location
   force_destroy = true
   lifecycle {

@@ -1,5 +1,5 @@
 variable "project_id" {
-  default     = "task-cf-370913"
+  default     = "task-cf-372314"
   type        = string
   description = "Project ID"
 }
@@ -51,7 +51,7 @@ variable "force_destroy" {
 
 variable "bucket_id" {
   type = string
-  default = "task-cf-bucket1"
+  default = "bucket-task-cf"
 }
 
 variable "topic_id" {
