@@ -1,9 +1,33 @@
 steps:
+  - id: 'terraform init'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'terraform init -upgrade'
+    waitFor: [ '-' ]
+
+  - id: 'terraform plan'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'terraform plan -lock=false -out=plan.out'
+    waitFor: [ 'terraform init' ]
+
+  - id: 'terraform apply'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'terraform apply -lock=false plan.out'
+    waitFor: [ 'terraform plan' ]
+
   - id: "Activate virtual environment venv"
     name: 'gcr.io/task-cf-370913/dataflow-python3:latest'
     entrypoint: '/bin/bash'
     args: [ '-c', 'source /venv/bin/activate' ]
-    waitFor: [ '-' ]
+    waitFor: [ 'terraform apply' ]
 
   - id: "Create dataflow template"
     name: 'gcr.io/task-cf-370913/dataflow-python3:latest'
@@ -23,6 +47,5 @@ steps:
             "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
-#      '-'
       'Activate virtual environment venv'
     ]
