@@ -155,11 +155,11 @@ resource "google_pubsub_topic_iam_member" "member" {
   member = "allUsers"
 }
 
-resource "google_pubsub_subscription" "cf-subtask-sub" {
-  project = var.project_id
-  name    = "cf-subtask-sub"
-  topic   = google_pubsub_topic.cf-subtask-topic.name
-}
+#resource "google_pubsub_subscription" "cf-subtask-sub" {
+#  project = var.project_id
+#  name    = "cf-subtask-sub"
+#  topic   = google_pubsub_topic.cf-subtask-topic.name
+#}
 
 #resource "google_pubsub_subscription_iam_member" "sub-owner" {
 #  subscription = google_pubsub_subscription.cf-subtask-sub.name
