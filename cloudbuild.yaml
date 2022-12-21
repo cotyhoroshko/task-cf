@@ -24,20 +24,20 @@ steps:
     waitFor: [ 'terraform plan' ]
 
   - id: "Activate virtual environment venv"
-    name: 'gcr.io/task-cf-370913/dataflow-python3:latest'
+    name: 'gcr.io/task-cf-372314/dataflow-python3:latest'
     entrypoint: '/bin/bash'
     args: [ '-c', 'source /venv/bin/activate' ]
     waitFor: [ 'terraform apply' ]
 
   - id: "Create dataflow template"
-    name: 'gcr.io/task-cf-370913/dataflow-python3:latest'
+    name: 'gcr.io/task-cf-372314/dataflow-python3:latest'
     entrypoint: 'python'
     args: [ '-m', 'task_two.main',
             "--job_name=dataflow-job-task",
-            "--input_subscription=projects/task-cf-370913/subscriptions/cf-subtask-sub",
-            "--output_table=task-cf-370913:task_cf_dataset.task_two_table",
-            "--output_error_table=task-cf-370913:task_cf_dataset.task_two_error_table",
-            "--project=task-cf-370913",
+            "--input_subscription=projects/task-cf-372314/subscriptions/cf-subtask-sub",
+            "--output_table=task-cf-372314:task_cf_dataset.task_two_table",
+            "--output_error_table=task-cf-372314:task_cf_dataset.task_two_error_table",
+            "--project=task-cf-372314",
             "--region=US",
             "--template_location=gs://task-cf/template/test-job",
             "--staging_location=gs://task-cf/tmp/",
