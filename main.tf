@@ -206,27 +206,27 @@ resource "google_pubsub_subscription_iam_member" "sub-owner" {
 
 
 
-resource "google_bigquery_table" "task-two-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.task_two_table_id
-  schema     = file("schemas/bq_table_schema/task-2-raw.json")
-  deletion_protection = false
-
-  depends_on = [
-    google_bigquery_dataset.task_cf_dataset
-  ]
-}
-
-resource "google_bigquery_table" "task-two-error-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.task_two_error_table_id
-  schema     = file("schemas/bq_table_schema/task-2-error-raw.json")
-  deletion_protection = false
-
-  depends_on = [
-    google_bigquery_dataset.task_cf_dataset
-  ]
-}
+#resource "google_bigquery_table" "task-two-table" {
+#  dataset_id = var.dataset_id
+#  table_id   = var.task_two_table_id
+#  schema     = file("schemas/bq_table_schema/task-2-raw.json")
+#  deletion_protection = false
+#
+#  depends_on = [
+#    google_bigquery_dataset.task_cf_dataset
+#  ]
+#}
+#
+#resource "google_bigquery_table" "task-two-error-table" {
+#  dataset_id = var.dataset_id
+#  table_id   = var.task_two_error_table_id
+#  schema     = file("schemas/bq_table_schema/task-2-error-raw.json")
+#  deletion_protection = false
+#
+#  depends_on = [
+#    google_bigquery_dataset.task_cf_dataset
+#  ]
+#}
 
 #resource "google_dataflow_job" "big_data_job" {
 #  name              = "dataflow-job-task"
