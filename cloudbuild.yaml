@@ -1,12 +1,12 @@
 steps:
-  - id: "Activate virtual environment venv"
-    name: 'hashicorp/dataflow-python3:latest'
-    entrypoint: '/bin/bash'
-    args: [ '-c', 'source /venv/bin/activate' ]
-    waitFor: [ '-' ]
+#  - id: "Activate virtual environment venv"
+#    name: 'gcr.io/task-cf-370913/dataflow-python3:latest'
+#    entrypoint: '/bin/bash'
+#    args: [ '-c', 'source /venv/bin/activate' ]
+#    waitFor: [ '-' ]
 
   - id: "Create dataflow template"
-    name: 'hashicorp/dataflow-python3:latest'
+    name: 'gcr.io/task-cf-370913/dataflow-python3:latest'
     entrypoint: 'python'
     args: [ '-m', 'task_two.main',
             "--job_name=dataflow-job-task",
@@ -20,5 +20,6 @@ steps:
             "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
-      'Activate virtual environment venv'
+      '-'
+#      'Activate virtual environment venv'
     ]
