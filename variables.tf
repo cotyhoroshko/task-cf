@@ -63,3 +63,15 @@ variable "subscription_id" {
   type = string
   default = "cf_sub"
 }
+
+variable "task_two_table_id" {
+  default     = "task_two_table"
+  type        = string
+  description = "Table task 2 ID"
+}
+
+variable "task_two_error_table_id" {
+  default     = "task_two_error_table"
+  type        = string
+  description = "Error table task 2 ID"
+}

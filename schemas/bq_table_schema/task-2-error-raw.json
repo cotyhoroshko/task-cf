@@ -1,0 +1,12 @@
+[
+  {
+    "name": "msg",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED"
+  }
+]

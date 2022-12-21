@@ -9,6 +9,16 @@ provider "google" {
   region  = var.region
 }
 
+#data "google_iam_policy" "cloudbuild-runner" {
+#  binding {
+#    role = "roles/bigquery.dataOwner"
+#
+#    members = [
+#      "allUsers",
+#    ]
+#  }
+#}
+
 resource "google_storage_bucket" "task-cf-bucket" {
   name          = "project-id-bucket"
   location      = var.location
@@ -174,3 +184,35 @@ resource "google_pubsub_subscription_iam_member" "sub-owner" {
 #where MEMBER has a prefix like 'user:' or 'serviceAccount:'. Details and instructions for the Cloud Console can be found at
 #https://cloud.google.com/functions/docs/reference/iam/roles#additional-configuration. Please visit https://cloud.google.com/functions/docs/troubleshooting
 #for in-depth troubleshooting documentation., forbidden
+
+# gcloud iam service-accounts add-iam-policy-binding task-cf-370913@appspot.gserviceaccount.com --member 'allUsers' --role roles/iam.serviceAccountUser
+
+
+
+resource "google_bigquery_table" "task-two-table" {
+  dataset_id = var.dataset_id
+  table_id   = var.task_two_table_id
+  schema     = file("schemas/bq_table_schema/task-2-raw.json")
+  deletion_protection = false
+
+  depends_on = [
+    google_bigquery_dataset.task_cf_dataset
+  ]
+}
+
+resource "google_bigquery_table" "task-two-error-table" {
+  dataset_id = var.dataset_id
+  table_id   = var.task_two_error_table_id
+  schema     = file("schemas/bq_table_schema/task-2-error-raw.json")
+  deletion_protection = false
+
+  depends_on = [
+    google_bigquery_dataset.task_cf_dataset
+  ]
+}
+
+resource "google_dataflow_job" "big_data_job" {
+  name              = "dataflow-job-task"
+  template_gcs_path = "gs://task-cf/template/test-job"
+  temp_gcs_location = "gs://task-cf/tmp"
+}
