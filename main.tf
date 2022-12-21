@@ -188,11 +188,11 @@ resource "google_pubsub_subscription" "cf-subtask-sub" {
   topic   = google_pubsub_topic.cf-subtask-topic.name
 }
 
-resource "google_pubsub_subscription_iam_member" "sub-owner" {
-  subscription = google_pubsub_subscription.cf-subtask-sub.name
-  role = "roles/owner"
-  member = "allUsers"
-}
+#resource "google_pubsub_subscription_iam_member" "sub-owner" {
+#  subscription = google_pubsub_subscription.cf-subtask-sub.name
+#  role = "roles/owner"
+#  member = "allUsers"
+#}
 
 #resource "google_service_account" "sa" {
 #  account_id   = "my-service-account"
@@ -220,7 +220,9 @@ resource "google_pubsub_subscription_iam_member" "sub-owner" {
 #for in-depth troubleshooting documentation., forbidden
 
 # gcloud iam service-accounts add-iam-policy-binding task-cf-370913@appspot.gserviceaccount.com --member 'allUsers' --role roles/iam.serviceAccountUser
-
+# access-service-account@task-cf-370913.iam.gserviceaccount.com
+# projects/task-cf-372314/serviceAccounts/my-service-account@task-cf-372314.iam.gserviceaccount.com
+# projects/task-cf-372314/serviceAccounts/my-service-account@task-cf-372314.iam.gserviceaccount.com
 
 
 #resource "google_bigquery_table" "task-two-table" {
