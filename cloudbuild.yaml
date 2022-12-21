@@ -10,6 +10,9 @@ steps:
     entrypoint: 'python'
     args: [ '-m', 'task_two.main',
             "--job_name=dataflow-job-task",
+            "--input_subscription=projects/task-cf-370913/subscriptions/cf-subtask-sub",
+            "--output_table task-cf-370913:task_cf_dataset.task_two_table",
+            "--output_error_table task-cf-370913:task_cf_dataset.task_two_error_table",
             "--project=task-cf-370913",
             "--region=US",
             "--template_location=gs://task-cf/template/test-job",

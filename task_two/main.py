@@ -105,3 +105,10 @@ if __name__ == '__main__':
     #     output_table="projects/task-cf-370913/datasets/task_cf_dataset/tables/task_two_table",
     #     output_error_table="projects/task-cf-370913/datasets/task_cf_dataset/tables/task_two_error_table"
     # )
+
+
+# python task_two/main.py
+#     --streaming
+#     --input_subscription projects/task-cf-370913/subscriptions/cf-subtask-sub
+#     --output_table task-cf-370913:task_cf_dataset.task_two_table
+#     --output_error_table task-cf-370913:task_cf_dataset.task_two_error_table
