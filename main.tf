@@ -124,7 +124,7 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   cloud_function = google_cloudfunctions_function.task-cf-function.name
 
 #  role   = "roles/cloudfunctions.invoker"
-  role   = "roles/owner"
+  role   = "roles/editor"
   member = "allUsers"
 
   depends_on = [
