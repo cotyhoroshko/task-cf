@@ -9,9 +9,23 @@ provider "google" {
   region  = var.region
 }
 
+resource "google_project_iam_policy" "project" {
+  project     = var.project_id
+  policy_data = data.google_iam_policy.admin.policy_data
+}
+
+data "google_iam_policy" "admin" {
+  binding {
+    role = "roles/editor"
+
+    members = ["serviceAccount:access-service-account@task-cf-370913.iam.gserviceaccount.com"]
+  }
+}
+
 #data "google_iam_policy" "cloudbuild-runner" {
 #  binding {
-#    role = "roles/bigquery.dataOwner"
+##    role = "roles/bigquery.dataOwner"
+#    role = "dataflow.jobs.create"
 #
 #    members = [
 #      "allUsers",
