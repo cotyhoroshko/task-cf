@@ -11,8 +11,16 @@ provider "google" {
 
 data "google_project" "project" {}
 
+output "project_number" {
+  value = data.google_project.project.number
+}
+
 data "google_service_account" "cloudbuild_account" {
   account_id = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+}
+
+output "cloudbuild_account_o" {
+  value = data.google_service_account.cloudbuild_account.name
 }
 
 resource "google_project_iam_member" "project-me" {
@@ -244,7 +252,6 @@ data "google_client_openid_userinfo" "me" {
 output "my-email" {
   value = data.google_client_openid_userinfo.me.email
 }
-
 
 resource "google_dataflow_job" "big_data_job" {
   name              = "dataflow-job-task"
