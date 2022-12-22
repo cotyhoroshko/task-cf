@@ -56,11 +56,11 @@ resource "google_storage_bucket" "task-cf-bucket" {
 #  member = "user:alice@gmail.com"
 #}
 
-resource "google_storage_bucket_iam_member" "member" {
-  bucket = google_storage_bucket.task-cf-bucket.name
-  role = "roles/storage.admin"
-  member = "allUsers"
-}
+#resource "google_storage_bucket_iam_member" "member" {
+#  bucket = google_storage_bucket.task-cf-bucket.name
+#  role = "roles/storage.admin"
+#  member = "allUsers"
+#}
 
 resource "google_storage_default_object_access_control" "public_rule" {
   bucket = google_storage_bucket.task-cf-bucket.name
@@ -74,11 +74,11 @@ resource "google_bigquery_dataset" "task_cf_dataset" {
   description = "Public dataset"
 }
 
-resource "google_bigquery_dataset_iam_member" "owner" {
-  dataset_id  = google_bigquery_dataset.task_cf_dataset.dataset_id
-  role = "roles/bigquery.dataOwner"
-  member = "allUsers"
-}
+#resource "google_bigquery_dataset_iam_member" "owner" {
+#  dataset_id  = google_bigquery_dataset.task_cf_dataset.dataset_id
+#  role = "roles/bigquery.dataOwner"
+#  member = "allUsers"
+#}
 
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
@@ -186,12 +186,12 @@ resource "google_pubsub_topic" "cf-subtask-topic" {
   name = "cf-subtask-topic"
 }
 
-resource "google_pubsub_topic_iam_member" "member" {
-  project = google_pubsub_topic.cf-subtask-topic.project
-  topic = google_pubsub_topic.cf-subtask-topic.name
-  role = "roles/owner"
-  member = "allUsers"
-}
+#resource "google_pubsub_topic_iam_member" "member" {
+#  project = google_pubsub_topic.cf-subtask-topic.project
+#  topic = google_pubsub_topic.cf-subtask-topic.name
+#  role = "roles/owner"
+#  member = "allUsers"
+#}
 
 #resource "google_pubsub_subscription" "cf-subtask-sub" {
 #  project = var.project_id
