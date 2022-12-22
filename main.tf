@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-      bucket = "cf-task"
+    bucket = "cf-task"
   }
 }
 
@@ -32,8 +32,8 @@ resource "google_project_iam_member" "project-me" {
 resource "google_project_iam_member" "project-cloud-build" {
   project = var.project_id
   role    = "roles/owner"
-  member = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
-#  member = data.google_service_account.cloudbuild_account.name
+  member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+  #  member = data.google_service_account.cloudbuild_account.name
 }
 
 resource "google_storage_bucket" "task-cf-bucket" {
@@ -53,14 +53,14 @@ resource "google_storage_default_object_access_control" "public_rule" {
 
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
-  location = var.location
+  location    = var.location
   description = "Public dataset"
 }
 
 resource "google_bigquery_table" "task-cf-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.table_id
-  schema     = file("schemas/bq_table_schema/task-cf-raw.json")
+  dataset_id          = var.dataset_id
+  table_id            = var.table_id
+  schema              = file("schemas/bq_table_schema/task-cf-raw.json")
   deletion_protection = false
 
   depends_on = [
@@ -93,10 +93,9 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   trigger_http = true
 
   environment_variables = {
-    FUNCTION_REGION = var.region
-    GCP_PROJECT     = var.project_id
-    DATASET_ID      = var.dataset_id
-    OUTPUT_TABLE    = google_bigquery_table.task-cf-table.table_id
+    GCP_PROJECT       = var.project_id
+    DATASET_ID        = var.dataset_id
+    OUTPUT_TABLE      = google_bigquery_table.task-cf-table.table_id
     PUBSUB_TOPIC_NAME = google_pubsub_topic.cf-subtask-topic.name
   }
 
@@ -135,7 +134,7 @@ resource "google_cloudbuild_trigger" "github-trigger" {
 
 resource "google_pubsub_topic" "cf-subtask-topic" {
   project = var.project_id
-  name = "cf-subtask-topic"
+  name    = "cf-subtask-topic"
 }
 
 resource "google_pubsub_subscription" "cf-subtask-sub" {
@@ -159,9 +158,9 @@ resource "google_pubsub_subscription" "cf-subtask-sub" {
 
 
 resource "google_bigquery_table" "task-two-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.task_two_table_id
-  schema     = file("schemas/bq_table_schema/task-2-raw.json")
+  dataset_id          = var.dataset_id
+  table_id            = var.task_two_table_id
+  schema              = file("schemas/bq_table_schema/task-2-raw.json")
   deletion_protection = false
 
   depends_on = [
@@ -170,9 +169,9 @@ resource "google_bigquery_table" "task-two-table" {
 }
 
 resource "google_bigquery_table" "task-two-error-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.task_two_error_table_id
-  schema     = file("schemas/bq_table_schema/task-2-error-raw.json")
+  dataset_id          = var.dataset_id
+  table_id            = var.task_two_error_table_id
+  schema              = file("schemas/bq_table_schema/task-2-error-raw.json")
   deletion_protection = false
 
   depends_on = [
@@ -187,8 +186,8 @@ output "my-email" {
 }
 
 resource "google_dataflow_job" "big_data_job" {
-  name              = "dataflow-job-task"
-  template_gcs_path = "gs://cf-task/template/test-job"
-  temp_gcs_location = "gs://cf-task/tmp"
+  name                  = "dataflow-job-task"
+  template_gcs_path     = "gs://cf-task/template/test-job"
+  temp_gcs_location     = "gs://cf-task/tmp"
   service_account_email = "cloud-builder-account@task-cf-372314.iam.gserviceaccount.com"
 }

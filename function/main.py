@@ -11,7 +11,6 @@ from google.cloud import bigquery, pubsub_v1
 
 logging.basicConfig(level=logging.INFO)
 
-FUNCTION_REGION = getenv("FUNCTION_REGION")
 PROJECT_ID = getenv("GCP_PROJECT")
 DATASET_ID = getenv("DATASET_ID")
 OUTPUT_TABLE = getenv("OUTPUT_TABLE")
@@ -34,10 +33,12 @@ def store_data_into_bq(dataset, timestamp, event):
     except AttributeError as error:
         logging.error(f"Query job could not be completed: {error}")
 
+
 def publish_to_pubsub_topic(data: str) -> None:
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(PROJECT_ID, PUBSUB_TOPIC_NAME)
     publisher.publish(topic_path, data.encode("utf-8"))
+
 
 def main(request):
     logging.info("Request: %s", request)
@@ -48,7 +49,7 @@ def main(request):
             event = json.dumps(request.json)
         except TypeError as error:
             return {"error": f"Function only works with JSON. Error: {error}"}, 415, \
-                   {'Content-Type': 'application/json; charset=utf-8'}
+                {'Content-Type': 'application/json; charset=utf-8'}
 
         timestamp = time.time()
         dataset = f"{PROJECT_ID}.{DATASET_ID}.{OUTPUT_TABLE}"
@@ -61,4 +62,4 @@ def main(request):
         return "", 204
 
     return {"error": f"{request.method} method is not supported"}, 500, \
-           {'Content-Type': 'application/json; charset=utf-8'}
+        {'Content-Type': 'application/json; charset=utf-8'}

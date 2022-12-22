@@ -1,1 +1,2 @@
-deletion_protection=false
+deletion_protection = false
+force_destroy       = true
