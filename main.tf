@@ -9,6 +9,18 @@ provider "google" {
   region  = var.region
 }
 
+resource "google_project_iam_member" "project-me" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "user:andrii.mruts.knm.2019@lpnu.ua"
+}
+
+#resource "google_project_iam_member" "project-cloud-build" {
+#  project = var.project_id
+#  role    = "roles/owner"
+#  member = "serviceAccount:343294276391@cloudbuild.gserviceaccount.com"
+#}
+
 resource "google_storage_bucket" "task-cf-bucket" {
   name          = "bucket-project-id"
   location      = var.location
