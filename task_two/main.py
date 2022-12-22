@@ -87,12 +87,12 @@ if __name__ == '__main__':
     pipeline_options.view_as(SetupOptions).save_main_session = True
     print("###", pipeline_options.__dict__)
     pipeline_options = {
-        'project': 'task-cf-372314',
+        'project': 'cf-task-372314',
         'runner': 'DataflowRunner',
         'region': 'US',
-        'staging_location': 'gs://task-cf/tmp',
-        'temp_location': 'gs://task-cf/tmp',
-        'template_location': 'gs://task-cf/template/test-job',
+        'staging_location': 'gs://cf-task/tmp',
+        'temp_location': 'gs://cf-task/tmp',
+        'template_location': 'gs://cf-task/template/test-job',
         'save_main_session': True,
         'streaming': True,
         'job_name': 'dataflow-custom-pipeline-v1',
@@ -101,14 +101,14 @@ if __name__ == '__main__':
     run(pipeline_options, known_args.input_subscription, known_args.output_table, known_args.output_error_table)
     # run(
     #     options=pipeline_options,
-    #     input_subscription="projects/task-cf-372314/subscriptions/cf-subtask-sub",
-    #     output_table="projects/task-cf-372314/datasets/task_cf_dataset/tables/task_two_table",
-    #     output_error_table="projects/task-cf-372314/datasets/task_cf_dataset/tables/task_two_error_table"
+    #     input_subscription="projects/cf-task-372314/subscriptions/cf-subtask-sub",
+    #     output_table="projects/cf-task-372314/datasets/task_cf_dataset/tables/task_two_table",
+    #     output_error_table="projects/cf-task-372314/datasets/task_cf_dataset/tables/task_two_error_table"
     # )
 
 
 # python task_two/main.py
 #     --streaming
-#     --input_subscription projects/task-cf-372314/subscriptions/cf-subtask-sub
-#     --output_table task-cf-372314:task_cf_dataset.task_two_table
-#     --output_error_table task-cf-372314:task_cf_dataset.task_two_error_table
+#     --input_subscription projects/cf-task-372314/subscriptions/cf-subtask-sub
+#     --output_table cf-task-372314:task_cf_dataset.task_two_table
+#     --output_error_table cf-task-372314:task_cf_dataset.task_two_error_table

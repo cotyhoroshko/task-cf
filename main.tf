@@ -18,6 +18,17 @@ resource "google_storage_bucket" "task-cf-bucket" {
   }
 }
 
+#resource "google_folder" "tmp" {
+#  display_name = "Temp"
+#  parent       = google_storage_bucket.task-cf-bucket
+#}
+#
+#resource "google_folder_iam_member" "admin" {
+#  folder = google_folder.department1.name
+#  role   = "roles/editor"
+#  member = "user:alice@gmail.com"
+#}
+
 resource "google_storage_bucket_iam_member" "member" {
   bucket = google_storage_bucket.task-cf-bucket.name
   role = "roles/storage.admin"
