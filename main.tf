@@ -45,23 +45,6 @@ resource "google_storage_bucket" "task-cf-bucket" {
   }
 }
 
-#resource "google_folder" "tmp" {
-#  display_name = "Temp"
-#  parent       = google_storage_bucket.task-cf-bucket
-#}
-#
-#resource "google_folder_iam_member" "admin" {
-#  folder = google_folder.department1.name
-#  role   = "roles/editor"
-#  member = "user:alice@gmail.com"
-#}
-
-#resource "google_storage_bucket_iam_member" "member" {
-#  bucket = google_storage_bucket.task-cf-bucket.name
-#  role = "roles/storage.admin"
-#  member = "allUsers"
-#}
-
 resource "google_storage_default_object_access_control" "public_rule" {
   bucket = google_storage_bucket.task-cf-bucket.name
   role   = "OWNER"
@@ -71,14 +54,8 @@ resource "google_storage_default_object_access_control" "public_rule" {
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
   location = var.location
-  description = "Public dataset it"
+  description = "Public dataset"
 }
-
-#resource "google_bigquery_dataset_iam_member" "owner" {
-#  dataset_id  = google_bigquery_dataset.task_cf_dataset.dataset_id
-#  role = "roles/bigquery.dataOwner"
-#  member = "allUsers"
-#}
 
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
@@ -143,22 +120,6 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   ]
 }
 
-#resource "google_service_account" "cloudbuild_service_account" {
-#  account_id = "my-service-account"
-#}
-#
-#resource "google_bigquery_dataset_iam_member" "dataset-editor" {
-#  dataset_id = var.dataset_id
-#  role    = "roles/bigquery.dataEditor"
-#  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-#}
-
-#resource "google_project_iam_member" "project-editor" {
-#  project = var.dataset_id
-#  role    = "roles/editor"
-#  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-#}
-
 resource "google_cloudbuild_trigger" "github-trigger" {
   project  = var.project_id
   name     = "github-updates-trigger"
@@ -173,12 +134,6 @@ resource "google_cloudbuild_trigger" "github-trigger" {
       branch = "^master"
     }
   }
-
-#  depends_on = [
-#    google_service_account.cloudbuild_service_account,
-#    google_project_iam_member.project-editor,
-#    google_bigquery_dataset_iam_member.dataset-editor
-#  ]
 }
 
 resource "google_pubsub_topic" "cf-subtask-topic" {
@@ -197,11 +152,11 @@ resource "google_pubsub_topic" "cf-subtask-topic" {
 #  member = "allUsers"
 #}
 
-#resource "google_pubsub_subscription" "cf-subtask-sub" {
-#  project = var.project_id
-#  name    = "cf-subtask-sub"
-#  topic   = google_pubsub_topic.cf-subtask-topic.name
-#}
+resource "google_pubsub_subscription" "cf-subtask-sub" {
+  project = var.project_id
+  name    = "cf-subtask-sub"
+  topic   = google_pubsub_topic.cf-subtask-topic.name
+}
 
 #resource "google_pubsub_subscription_iam_member" "sub-owner" {
 #  subscription = google_pubsub_subscription.cf-subtask-sub.name
