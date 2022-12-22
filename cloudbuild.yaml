@@ -23,29 +23,29 @@ steps:
       - 'terraform apply -lock=false plan.out'
     waitFor: [ 'terraform plan' ]
 
-#  - id: "Activate virtual environment venv"
-#    name: 'gcr.io/task-cf-372314/dataflow-python3:latest'
-#    entrypoint: '/bin/bash'
-#    args: [ '-c', 'source /venv/bin/activate' ]
-#    waitFor: [ 'terraform apply' ]
-#
-#  - id: "Create dataflow template"
-#    name: 'gcr.io/task-cf-372314/dataflow-python3:latest'
-#    entrypoint: 'python'
-#    args: [ '-m', 'task_two.main',
-#            "--job_name=dataflow-job-task",
-#            "--input_subscription=projects/task-cf-372314/subscriptions/cf-subtask-sub",
-#            "--output_table=task-cf-372314:task_cf_dataset.task_two_table",
-#            "--output_error_table=task-cf-372314:task_cf_dataset.task_two_error_table",
-#            "--project=task-cf-372314",
-#            "--region=US",
-#            "--template_location=gs://task-cf/template/test-job",
-#            "--staging_location=gs://task-cf/tmp/",
-#            "--temp_location=gs://task-cf/tmp/",
-#            "--runner=DataflowRunner",
-#            "--setup_file='task_two/setup.py'",
-#            "--autoscaling_algorithm=NONE"
-#    ]
-#    waitFor: [
-#      'Activate virtual environment venv'
-#    ]
+  - id: "Activate virtual environment venv"
+    name: 'gcr.io/task-cf-372314/dataflow-python3:latest'
+    entrypoint: '/bin/bash'
+    args: [ '-c', 'source /venv/bin/activate' ]
+    waitFor: [ 'terraform apply' ]
+
+  - id: "Create dataflow template"
+    name: 'gcr.io/task-cf-372314/dataflow-python3:latest'
+    entrypoint: 'python'
+    args: [ '-m', 'task_two.main',
+            "--job_name=dataflow-job-task",
+            "--input_subscription=projects/task-cf-372314/subscriptions/cf-subtask-sub",
+            "--output_table=task-cf-372314:task_cf_dataset.task_two_table",
+            "--output_error_table=task-cf-372314:task_cf_dataset.task_two_error_table",
+            "--project=task-cf-372314",
+            "--region=US",
+            "--template_location=gs://task-cf/template/test-job",
+            "--staging_location=gs://task-cf/tmp/",
+            "--temp_location=gs://task-cf/tmp/",
+            "--runner=DataflowRunner",
+            "--setup_file='task_two/setup.py'",
+            "--autoscaling_algorithm=NONE"
+    ]
+    waitFor: [
+      'Activate virtual environment venv'
+    ]
