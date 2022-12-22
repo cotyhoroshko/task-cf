@@ -214,8 +214,15 @@ resource "google_bigquery_table" "task-two-error-table" {
   ]
 }
 
-resource "google_dataflow_job" "big_data_job" {
-  name              = "dataflow-job-task"
-  template_gcs_path = "gs://cf-task/template/test-job"
-  temp_gcs_location = "gs://cf-task/tmp"
+data "google_client_openid_userinfo" "me" {
 }
+
+output "my-email" {
+  value = data.google_client_openid_userinfo.me.email
+}
+
+#resource "google_dataflow_job" "big_data_job" {
+#  name              = "dataflow-job-task"
+#  template_gcs_path = "gs://cf-task/template/test-job"
+#  temp_gcs_location = "gs://cf-task/tmp"
+#}
