@@ -9,6 +9,12 @@ provider "google" {
   region  = var.region
 }
 
+data "google_project" "project" {}
+
+data "google_service_account" "cloudbuild_account" {
+  account_id = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+}
+
 resource "google_project_iam_member" "project-me" {
   project = var.project_id
   role    = "roles/owner"
@@ -18,7 +24,8 @@ resource "google_project_iam_member" "project-me" {
 resource "google_project_iam_member" "project-cloud-build" {
   project = var.project_id
   role    = "roles/owner"
-  member = "serviceAccount:343294276391@cloudbuild.gserviceaccount.com"
+  member = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+#  member = data.google_service_account.cloudbuild_account.name
 }
 
 resource "google_storage_bucket" "task-cf-bucket" {
@@ -246,6 +253,3 @@ resource "google_dataflow_job" "big_data_job" {
 
   service_account_email = "cloud-builder-account@task-cf-372314.iam.gserviceaccount.com"
 }
-
-# 343294276391@cloudbuild.gserviceaccount.com
-# 343294276391@cloudbuild.gserviceaccount.com
