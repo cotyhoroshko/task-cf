@@ -214,8 +214,8 @@ resource "google_bigquery_table" "task-two-error-table" {
   ]
 }
 
-#resource "google_dataflow_job" "big_data_job" {
-#  name              = "dataflow-job-task"
-#  template_gcs_path = "gs://task-cf/template/test-job"
-#  temp_gcs_location = "gs://task-cf/tmp"
-#}
+resource "google_dataflow_job" "big_data_job" {
+  name              = "dataflow-job-task"
+  template_gcs_path = "gs://cf-task/template/test-job"
+  temp_gcs_location = "gs://cf-task/tmp"
+}
