@@ -111,8 +111,7 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   region         = google_cloudfunctions_function.task-cf-function.region
   cloud_function = google_cloudfunctions_function.task-cf-function.name
 
-#  role   = "roles/cloudfunctions.invoker"
-  role   = "roles/editor"
+  role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
 
   depends_on = [
@@ -124,8 +123,6 @@ resource "google_cloudbuild_trigger" "github-trigger" {
   project  = var.project_id
   name     = "github-updates-trigger"
   filename = "cloudbuild.yaml"
-#  service_account = "andrii.mruts.knm.2019@lpnu.ua"
-#  service_account = google_service_account.cloudbuild_service_account.id
 
   github {
     owner = "cotyhoroshko"
@@ -139,30 +136,13 @@ resource "google_cloudbuild_trigger" "github-trigger" {
 resource "google_pubsub_topic" "cf-subtask-topic" {
   project = var.project_id
   name = "cf-subtask-topic"
-  depends_on = [
-    google_cloudbuild_trigger.github-trigger
-  ]
-
 }
-
-#resource "google_pubsub_topic_iam_member" "member" {
-#  project = google_pubsub_topic.cf-subtask-topic.project
-#  topic = google_pubsub_topic.cf-subtask-topic.name
-#  role = "roles/owner"
-#  member = "allUsers"
-#}
 
 resource "google_pubsub_subscription" "cf-subtask-sub" {
   project = var.project_id
   name    = "cf-subtask-sub"
   topic   = google_pubsub_topic.cf-subtask-topic.name
 }
-
-#resource "google_pubsub_subscription_iam_member" "sub-owner" {
-#  subscription = google_pubsub_subscription.cf-subtask-sub.name
-#  role = "roles/owner"
-#  member = "allUsers"
-#} --------------------------------------------------------------------------------
 
 #guration: googleapi: Error 403: Caller is missing permission 'iam.serviceaccounts.actAs'
 #on service account task-cf-370913@appspot.gserviceaccount.com. Grant the role
@@ -200,13 +180,7 @@ resource "google_bigquery_table" "task-two-error-table" {
   ]
 }
 
-#resource "google_service_account" "service_account" {
-#  account_id   = "service-account-id"
-#  display_name = "Service Account"
-#}
-
-data "google_client_openid_userinfo" "me" {
-}
+data "google_client_openid_userinfo" "me" {}
 
 output "my-email" {
   value = data.google_client_openid_userinfo.me.email
@@ -216,6 +190,5 @@ resource "google_dataflow_job" "big_data_job" {
   name              = "dataflow-job-task"
   template_gcs_path = "gs://cf-task/template/test-job"
   temp_gcs_location = "gs://cf-task/tmp"
-
   service_account_email = "cloud-builder-account@task-cf-372314.iam.gserviceaccount.com"
 }
