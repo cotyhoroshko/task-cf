@@ -214,10 +214,10 @@ resource "google_bigquery_table" "task-two-error-table" {
   ]
 }
 
-resource "google_service_account" "service_account" {
-  account_id   = "service-account-id"
-  display_name = "Service Account"
-}
+#resource "google_service_account" "service_account" {
+#  account_id   = "service-account-id"
+#  display_name = "Service Account"
+#}
 
 data "google_client_openid_userinfo" "me" {
 }
@@ -227,11 +227,13 @@ output "my-email" {
 }
 
 
-#resource "google_dataflow_job" "big_data_job" {
-#  name              = "dataflow-job-task"
-#  template_gcs_path = "gs://cf-task/template/test-job"
-#  temp_gcs_location = "gs://cf-task/tmp"
-#}
+resource "google_dataflow_job" "big_data_job" {
+  name              = "dataflow-job-task"
+  template_gcs_path = "gs://cf-task/template/test-job"
+  temp_gcs_location = "gs://cf-task/tmp"
+
+  service_account_email = "cloud-builder-account@task-cf-372314.iam.gserviceaccount.com"
+}
 
 # 343294276391@cloudbuild.gserviceaccount.com
 # 343294276391@cloudbuild.gserviceaccount.com
