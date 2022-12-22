@@ -9,20 +9,6 @@ provider "google" {
   region  = var.region
 }
 
-data "google_project" "project" {}
-
-output "project_number" {
-  value = data.google_project.project.number
-}
-
-data "google_service_account" "cloudbuild_account" {
-  account_id = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
-}
-
-output "cloudbuild_account_o" {
-  value = data.google_service_account.cloudbuild_account.name
-}
-
 resource "google_project_iam_member" "project-me" {
   project = var.project_id
   role    = "roles/owner"
@@ -43,12 +29,6 @@ resource "google_storage_bucket" "task-cf-bucket" {
   lifecycle {
     prevent_destroy = false
   }
-}
-
-resource "google_storage_default_object_access_control" "public_rule" {
-  bucket = google_storage_bucket.task-cf-bucket.name
-  role   = "OWNER"
-  entity = "allUsers"
 }
 
 resource "google_bigquery_dataset" "task_cf_dataset" {
@@ -177,12 +157,6 @@ resource "google_bigquery_table" "task-two-error-table" {
   depends_on = [
     google_bigquery_dataset.task_cf_dataset
   ]
-}
-
-data "google_client_openid_userinfo" "me" {}
-
-output "my-email" {
-  value = data.google_client_openid_userinfo.me.email
 }
 
 resource "google_dataflow_job" "big_data_job" {

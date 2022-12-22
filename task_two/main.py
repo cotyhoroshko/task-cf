@@ -29,21 +29,15 @@ class Parser(beam.DoFn):
 
     def process(self, line):
         try:
-            # data_row = json.loads(element.decode("utf-8"))
-            print("LLL", line)
-            result_line = {}
-            result_line["name"] = str(json.loads(line.decode("utf-8")))
-            result_line["timestamp"] = datetime.datetime.utcnow()
-            result_line["age"] = 12
-            result_line["height"] = None
-            print("RR", result_line)
-            yield result_line
+            line = json.loads(line.decode("utf-8"))
+            if not all(field in line for field in ["name", "age"]):
+                raise
+            line["timestamp"] = datetime.datetime.utcnow()
+
+            yield line
         except Exception as error:
-            print("EE", error)
-            error_row = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
-            # error_row =  # parse json message according to ERRORS table schema
-            # yield beam.pvalue.TaggedOutput(self.ERROR_TAG, error_row)
-            yield beam.pvalue.TaggedOutput(self.ERROR_TAG, error_row)
+            err_record = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
+            yield beam.pvalue.TaggedOutput(self.ERROR_TAG, err_record)
 
 
 def run(options, input_subscription, output_table, output_error_table):
