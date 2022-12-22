@@ -71,7 +71,7 @@ resource "google_storage_default_object_access_control" "public_rule" {
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
   location = var.location
-  description = "Public dataset"
+  description = "Public dataset it"
 }
 
 #resource "google_bigquery_dataset_iam_member" "owner" {
@@ -184,6 +184,10 @@ resource "google_cloudbuild_trigger" "github-trigger" {
 resource "google_pubsub_topic" "cf-subtask-topic" {
   project = var.project_id
   name = "cf-subtask-topic"
+  depends_on = [
+    google_cloudbuild_trigger.github-trigger
+  ]
+
 }
 
 #resource "google_pubsub_topic_iam_member" "member" {
