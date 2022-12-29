@@ -1,0 +1,1 @@
+SELECT * FROM `{{ params.AF_TASK_INPUT_TABLE }}`

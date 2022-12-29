@@ -2,6 +2,12 @@ terraform {
   backend "gcs" {
     bucket = "cf-task"
   }
+  required_providers {
+    mongodbatlas = {
+      source = "mongodb/mongodbatlas"
+    }
+  }
+
 }
 
 provider "google" {
@@ -165,3 +171,9 @@ resource "google_dataflow_job" "big_data_job" {
   temp_gcs_location     = "gs://cf-task/tmp"
   service_account_email = "cloud-builder-account@task-cf-372314.iam.gserviceaccount.com"
 }
+
+
+#resource "google_bigquery_table" "" {
+#  dataset_id = var.dataset_id
+#  table_id   = ""
+#}
