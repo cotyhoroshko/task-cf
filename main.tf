@@ -2,12 +2,6 @@ terraform {
   backend "gcs" {
     bucket = "cf-task"
   }
-  required_providers {
-    mongodbatlas = {
-      source = "mongodb/mongodbatlas"
-    }
-  }
-
 }
 
 provider "google" {
