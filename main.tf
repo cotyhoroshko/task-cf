@@ -2,6 +2,7 @@ terraform {
   backend "gcs" {
     bucket = "cf-task"
   }
+  required_version = "1.3.6"
 }
 
 provider "google" {
