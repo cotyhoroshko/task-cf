@@ -1,6 +1,6 @@
 steps:
   - id: 'terraform init'
-    name: 'hashicorp/terraform:1.0.0'
+    name: 'hashicorp/terraform:1.3.6'
     entrypoint: sh
     args:
       - '-c'
@@ -8,7 +8,7 @@ steps:
     waitFor: [ '-' ]
 
   - id: 'terraform initt'
-    name: 'hashicorp/terraform:1.0.0'
+    name: 'hashicorp/terraform:1.3.6'
     entrypoint: sh
     args:
       - '-c'
@@ -16,7 +16,7 @@ steps:
     waitFor: [ 'terraform init' ]
 
   - id: 'terraform plan'
-    name: 'hashicorp/terraform:1.0.0'
+    name: 'hashicorp/terraform:1.3.6'
     entrypoint: sh
     args:
       - '-c'
@@ -24,7 +24,7 @@ steps:
     waitFor: [ 'terraform initt' ]
 
   - id: 'terraform apply'
-    name: 'hashicorp/terraform:1.0.0'
+    name: 'hashicorp/terraform:1.3.6'
     entrypoint: sh
     args:
       - '-c'
