@@ -7,13 +7,21 @@ steps:
       - 'terraform init -upgrade'
     waitFor: [ '-' ]
 
+  - id: 'terraform initt'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'terraform providers lock -platform=linux_amd64'
+    waitFor: [ 'terraform init' ]
+
   - id: 'terraform plan'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
     args:
       - '-c'
       - 'terraform plan -lock=false -out=plan.out'
-    waitFor: [ 'terraform init' ]
+    waitFor: [ 'terraform initt' ]
 
   - id: 'terraform apply'
     name: 'hashicorp/terraform:1.0.0'
