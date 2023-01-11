@@ -23,12 +23,6 @@ steps:
       - 'terraform apply -lock=false plan.out'
     waitFor: [ 'terraform plan' ]
 
-#  - id: "Activate virtual environment venv"
-#    name: 'gcr.io/gcp-task-374415/dataflow-python3:latest'
-#    entrypoint: '/bin/bash'
-#    args: [ '-c', 'source /venv/bin/activate' ]
-#    waitFor: [ 'terraform apply' ]
-
   - id: "Create dataflow template"
     name: 'gcr.io/gcp-task-374415/dataflow-python3:latest'
     entrypoint: 'python'
@@ -48,7 +42,6 @@ steps:
     ]
     waitFor: [
       'terraform apply'
-#      'Activate virtual environment venv'
     ]
 
 
