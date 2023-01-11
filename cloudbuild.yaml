@@ -13,7 +13,7 @@ steps:
     args:
       - '-c'
       - 'terraform plan -lock=false -out=plan.out'
-    waitFor: [ 'terraform initt' ]
+    waitFor: [ 'terraform init' ]
 
   - id: 'terraform apply'
     name: 'hashicorp/terraform:1.3.6'
