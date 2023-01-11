@@ -60,6 +60,7 @@ def main(request):
                            convert_timestamp_to_sql_date_time(timestamp),
                            event)
 
+        print("!!!!!!!!", event)
         publish_to_pubsub_topic(event)
 
         return "", 204
