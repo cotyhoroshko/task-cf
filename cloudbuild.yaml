@@ -23,26 +23,26 @@ steps:
       - 'terraform apply -lock=false plan.out'
     waitFor: [ 'terraform plan' ]
 
-  - id: "Create dataflow template"
-    name: 'gcr.io/gcp-task-374415/dataflow-python3:latest'
-    entrypoint: 'python'
-    args: [ '-m', 'task_two.main',
-            "--job_name=dataflow-job-task",
-            "--input_subscription=projects/gcp-task-374415/subscriptions/cf-subtask-sub",
-            "--output_table=gcp-task-374415:task_cf_dataset.task_two_table",
-            "--output_error_table=gcp-task-374415:task_cf_dataset.task_two_error_table",
-            "--project=gcp-task-374415",
-            "--region=US",
-            "--template_location=gs://cloud-task/template/test-job",
-            "--staging_location=gs://cloud-task/tmp/",
-            "--temp_location=gs://cloud-task/tmp/",
-            "--runner=DataflowRunner",
-            "--setup_file='task_two/setup.py'",
-            "--autoscaling_algorithm=NONE"
-    ]
-    waitFor: [
-      'terraform apply'
-    ]
+#  - id: "Create dataflow template"
+#    name: 'gcr.io/gcp-task-374415/dataflow-python3:latest'
+#    entrypoint: 'python'
+#    args: [ '-m', 'task_two.main',
+#            "--job_name=dataflow-job-task",
+#            "--input_subscription=projects/gcp-task-374415/subscriptions/cf-subtask-sub",
+#            "--output_table=gcp-task-374415:task_cf_dataset.task_two_table",
+#            "--output_error_table=gcp-task-374415:task_cf_dataset.task_two_error_table",
+#            "--project=gcp-task-374415",
+#            "--region=US",
+#            "--template_location=gs://cloud-task/template/test-job",
+#            "--staging_location=gs://cloud-task/tmp/",
+#            "--temp_location=gs://cloud-task/tmp/",
+#            "--runner=DataflowRunner",
+#            "--setup_file='task_two/setup.py'",
+#            "--autoscaling_algorithm=NONE"
+#    ]
+#    waitFor: [
+#      'terraform apply'
+#    ]
 
 
 #python -m task_two.main --job_name=dataflow-job-task --input_subscription=projects/gcp-task-374415/subscriptions/cf-subtask-sub --output_table=gcp-task-374415:task_cf_dataset.task_two_table --output_error_table=gcp-task-374415:task_cf_dataset.task_two_error_table --project=gcp-task-374415 --region=US --template_location=gs://cloud-task/template/test-job --staging_location=gs://cloud-task/tmp/ --temp_location=gs://cloud-task/tmp/  --runner=DataflowRunner --setup_file='task_two/setup.py' --autoscaling_algorithm=NONE
