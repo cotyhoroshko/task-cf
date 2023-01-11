@@ -35,9 +35,12 @@ def store_data_into_bq(dataset, timestamp, event):
 
 
 def publish_to_pubsub_topic(data: str) -> None:
+    print("####")
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(PROJECT_ID, PUBSUB_TOPIC_NAME)
+    print("DDD")
     publisher.publish(topic_path, data.encode("utf-8"))
+    print("!!!")
 
 
 def main(request):

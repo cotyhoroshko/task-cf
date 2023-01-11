@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "cf-task"
+    bucket = "gcp-task"
   }
   required_version = "1.3.6"
 }
@@ -10,10 +10,29 @@ provider "google" {
   region  = var.region
 }
 
+variable "api_services" {
+  description = "List of API Services"
+  default     = [
+    "iam.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "cloudfunctions.googleapis.com",
+    "pubsub.googleapis.com",
+    "dataflow.googleapis.com"
+  ]
+
+  # useful link : GCP List of API Services https://gist.github.com/coryodaniel/13eaee16a87a7fdca5e738123216862a
+}
+
+resource "google_project_service" "api_services" {
+  count   = length(var.api_services)
+  project = var.project_id
+  service = element(var.api_services, count.index)
+}
+
 resource "google_project_iam_member" "project-me" {
   project = var.project_id
   role    = "roles/owner"
-  member  = "user:andrii.mruts.knm.2019@lpnu.ua"
+  member  = "user:loskoton1@gmail.com"
 }
 
 resource "google_project_iam_member" "project-cloud-build" {
@@ -24,7 +43,7 @@ resource "google_project_iam_member" "project-cloud-build" {
 }
 
 resource "google_storage_bucket" "task-cf-bucket" {
-  name          = "bucket-project-id"
+  name          = var.project_id
   location      = var.location
   force_destroy = true
   lifecycle {
@@ -32,11 +51,24 @@ resource "google_storage_bucket" "task-cf-bucket" {
   }
 }
 
+resource "google_storage_bucket_object" "temp_folder" {
+  name    = "tmp/"
+  content = "Temporary gcp location"
+  bucket  = google_storage_bucket.task-cf-bucket.name
+}
+
+resource "google_storage_bucket_object" "template_folder" {
+  name    = "template/"
+  content = "Template gcp location"
+  bucket  = google_storage_bucket.task-cf-bucket.name
+}
+
 resource "google_bigquery_dataset" "task_cf_dataset" {
   dataset_id  = var.dataset_id
   location    = var.location
   description = "Public dataset"
 }
+
 
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id          = var.dataset_id
@@ -81,6 +113,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   }
 
   depends_on = [
+    google_project_service.api_services,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.zip
   ]
@@ -116,6 +149,8 @@ resource "google_cloudbuild_trigger" "github-trigger" {
 resource "google_pubsub_topic" "cf-subtask-topic" {
   project = var.project_id
   name    = "cf-subtask-topic"
+
+  depends_on = [google_project_service.api_services]
 }
 
 resource "google_pubsub_subscription" "cf-subtask-sub" {
@@ -134,8 +169,8 @@ resource "google_pubsub_subscription" "cf-subtask-sub" {
 
 # gcloud iam service-accounts add-iam-policy-binding task-cf-370913@appspot.gserviceaccount.com --member 'allUsers' --role roles/iam.serviceAccountUser
 # access-service-account@task-cf-370913.iam.gserviceaccount.com
-# projects/task-cf-372314/serviceAccounts/my-service-account@task-cf-372314.iam.gserviceaccount.com
-# projects/task-cf-372314/serviceAccounts/my-service-account@task-cf-372314.iam.gserviceaccount.com
+# projects/cf-task-374309/serviceAccounts/my-service-account@cf-task-374309.iam.gserviceaccount.com
+# projects/cf-task-374309/serviceAccounts/my-service-account@cf-task-374309.iam.gserviceaccount.com
 
 
 resource "google_bigquery_table" "task-two-table" {
@@ -162,9 +197,15 @@ resource "google_bigquery_table" "task-two-error-table" {
 
 resource "google_dataflow_job" "big_data_job" {
   name                  = "dataflow-job-task"
-  template_gcs_path     = "gs://cf-task/template/test-job"
-  temp_gcs_location     = "gs://cf-task/tmp"
-  service_account_email = "cloud-builder-account@task-cf-372314.iam.gserviceaccount.com"
+  template_gcs_path     = "gs://${google_storage_bucket_object.template_folder.bucket}/${google_storage_bucket_object.template_folder.name}test-job"
+  temp_gcs_location     = "gs://${google_storage_bucket_object.temp_folder.bucket}/${google_storage_bucket_object.temp_folder.name}"
+#  service_account_email = "cloud-builder-account@cf-task-374309.iam.gserviceaccount.com"
+
+  depends_on = [
+    google_project_service.api_services,
+    google_storage_bucket_object.temp_folder,
+    google_storage_bucket_object.template_folder
+  ]
 }
 
 
