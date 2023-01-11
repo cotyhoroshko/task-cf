@@ -47,7 +47,8 @@ steps:
             "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
-      'Activate virtual environment venv'
+      'terraform apply'
+#      'Activate virtual environment venv'
     ]
 
 
