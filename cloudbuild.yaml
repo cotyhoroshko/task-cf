@@ -7,14 +7,6 @@ steps:
       - 'terraform init -upgrade'
     waitFor: [ '-' ]
 
-  - id: 'terraform initt'
-    name: 'hashicorp/terraform:1.3.6'
-    entrypoint: sh
-    args:
-      - '-c'
-      - 'terraform providers lock -platform=linux_amd64'
-    waitFor: [ 'terraform init' ]
-
   - id: 'terraform plan'
     name: 'hashicorp/terraform:1.3.6'
     entrypoint: sh
@@ -32,24 +24,24 @@ steps:
     waitFor: [ 'terraform plan' ]
 
   - id: "Activate virtual environment venv"
-    name: 'gcr.io/cf-task-374309/dataflow-python3:latest'
+    name: 'gcr.io/gcp-task-374415/dataflow-python3:latest'
     entrypoint: '/bin/bash'
     args: [ '-c', 'source /venv/bin/activate' ]
     waitFor: [ 'terraform apply' ]
 
   - id: "Create dataflow template"
-    name: 'gcr.io/cf-task-374309/dataflow-python3:latest'
+    name: 'gcr.io/gcp-task-374415/dataflow-python3:latest'
     entrypoint: 'python'
     args: [ '-m', 'task_two.main',
             "--job_name=dataflow-job-task",
-            "--input_subscription=projects/cf-task-374309/subscriptions/cf-subtask-sub",
-            "--output_table=cf-task-374309:task_cf_dataset.task_two_table",
-            "--output_error_table=cf-task-374309:task_cf_dataset.task_two_error_table",
-            "--project=cf-task-374309",
+            "--input_subscription=projects/gcp-task-374415/subscriptions/cf-subtask-sub",
+            "--output_table=gcp-task-374415:task_cf_dataset.task_two_table",
+            "--output_error_table=gcp-task-374415:task_cf_dataset.task_two_error_table",
+            "--project=gcp-task-374415",
             "--region=US",
-            "--template_location=gs://task-cf/template/test-job",
-            "--staging_location=gs://task-cf/tmp/",
-            "--temp_location=gs://task-cf/tmp/",
+            "--template_location=gs://cloud-task/template/test-job",
+            "--staging_location=gs://cloud-task/tmp/",
+            "--temp_location=gs://cloud-task/tmp/",
             "--runner=DataflowRunner",
             "--setup_file='task_two/setup.py'",
             "--autoscaling_algorithm=NONE"
@@ -59,17 +51,17 @@ steps:
     ]
 
 
-#python -m task_two.main --job_name=dataflow-job-task --input_subscription=projects/cf-task-374309/subscriptions/cf-subtask-sub --output_table=cf-task-374309:task_cf_dataset.task_two_table --output_error_table=cf-task-374309:task_cf_dataset.task_two_error_table --project=cf-task-374309 --region=US --template_location=gs://task-cf/template/test-job --staging_location=gs://task-cf/tmp/ --temp_location=gs://task-cf/tmp/  --runner=DataflowRunner --setup_file='task_two/setup.py' --autoscaling_algorithm=NONE
-#python -m task_two.main
-#  --job_name=dataflow-job-task
-#  --input_subscription=projects/cf-task-374309/subscriptions/cf-subtask-sub
-#  --output_table=cf-task-374309:task_cf_dataset.task_two_table
-#  --output_error_table=cf-task-374309:task_cf_dataset.task_two_error_table
-#  --project=cf-task-374309
-#  --region=US
-#  --template_location=gs://task-cf/template/test-job
-#  --staging_location=gs://task-cf/tmp/
-#  --temp_location=gs://task-cf/tmp/
-#  --runner=DataflowRunner
-#  --setup_file='task_two/setup.py'
+#python -m task_two.main --job_name=dataflow-job-task --input_subscription=projects/gcp-task-374415/subscriptions/cf-subtask-sub --output_table=gcp-task-374415:task_cf_dataset.task_two_table --output_error_table=gcp-task-374415:task_cf_dataset.task_two_error_table --project=gcp-task-374415 --region=US --template_location=gs://cloud-task/template/test-job --staging_location=gs://cloud-task/tmp/ --temp_location=gs://cloud-task/tmp/  --runner=DataflowRunner --setup_file='task_two/setup.py' --autoscaling_algorithm=NONE
+#python -m task_two.main \
+#  --job_name=dataflow-job-task \
+#  --input_subscription=projects/gcp-task-374415/subscriptions/cf-subtask-sub \
+#  --output_table=gcp-task-374415:task_cf_dataset.task_two_table \
+#  --output_error_table=gcp-task-374415:task_cf_dataset.task_two_error_table \
+#  --project=gcp-task-374415 \
+#  --region=US \
+#  --template_location=gs://cloud-task/template/test-job \
+#  --staging_location=gs://cloud-task/tmp/  \
+#  --temp_location=gs://cloud-task/tmp/ \
+#  --runner=DataflowRunner \
+#  --setup_file='task_two/setup.py' \
 #  --autoscaling_algorithm=NONE
