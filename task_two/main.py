@@ -90,10 +90,10 @@ if __name__ == '__main__':
         'region': 'US',
         'staging_location': 'gs://task-gcp-374512/tmp',
         'temp_location': 'gs://task-gcp-374512/tmp',
-        'template_location': 'gs://task-gcp-374512/template/test-job_v2',
+        'template_location': 'gs://task-gcp-374512/template/test-job',
         'save_main_session': True,
         'streaming': True,
-        'job_name': 'dataflow-job-task',
+        'job_name': 'dataflow-job-task-three',
     }
     pipeline_options = PipelineOptions.from_dictionary(pipeline_options)
     # run(pipeline_options, known_args.input_subscription, known_args.output_table, known_args.output_error_table)
