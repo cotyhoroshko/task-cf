@@ -41,6 +41,7 @@ class Parser(beam.DoFn):
             print("BEBA")
             err_record = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
             yield beam.pvalue.TaggedOutput(self.ERROR_TAG, err_record)
+            raise error
 
 
 def run(options, input_subscription, output_table, output_error_table):
