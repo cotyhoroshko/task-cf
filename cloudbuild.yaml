@@ -40,9 +40,9 @@ steps:
             "--setup_file='task_two/setup.py'",
             "--autoscaling_algorithm=NONE"
     ]
-    waitFor: [
-      'terraform apply'
-    ]
+#    waitFor: [
+#      'terraform apply'
+#    ]
 
 
 #python -m task_two.main --job_name=dataflow-job-task --input_subscription=projects/task-gcp-374512/subscriptions/cf-subtask-sub --output_table=task-gcp-374512:task_cf_dataset.task_two_table --output_error_table=task-gcp-374512:task_cf_dataset.task_two_error_table --project=task-gcp-374512 --region=US --template_location=gs://task-gcp-374512/template/test-job --staging_location=gs://task-gcp-374512/tmp/ --temp_location=gs://task-gcp-374512/tmp/  --runner=DataflowRunner --setup_file='task_two/setup.py' --autoscaling_algorithm=NONE
