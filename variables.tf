@@ -16,6 +16,19 @@ variable "location" {
   description = "Location"
 }
 
+variable "api_services" {
+  description = "List of API Services"
+  default     = [
+    "iam.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "cloudfunctions.googleapis.com",
+    "pubsub.googleapis.com",
+    "dataflow.googleapis.com"
+  ]
+
+  # useful link : GCP List of API Services https://gist.github.com/coryodaniel/13eaee16a87a7fdca5e738123216862a
+}
+
 variable "dataset_id" {
   default     = "task_cf_dataset"
   type        = string
