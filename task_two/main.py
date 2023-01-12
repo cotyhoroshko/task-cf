@@ -93,7 +93,7 @@ if __name__ == '__main__':
         'template_location': 'gs://task-gcp-374512/template/test-job_v2',
         'save_main_session': True,
         'streaming': True,
-        'job_name': 'dataflow-custom-pipeline-v1',
+        'job_name': 'dataflow-job-task',
     }
     pipeline_options = PipelineOptions.from_dictionary(pipeline_options)
     # run(pipeline_options, known_args.input_subscription, known_args.output_table, known_args.output_error_table)
