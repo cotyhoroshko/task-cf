@@ -32,7 +32,7 @@ class Parser(beam.DoFn):
             print("!!!!!!!" * 4)
             line = json.loads(line.decode("utf-8"))
             print("#######", line)
-            if not ("name" in line or "age" in line) and line["name"] and line["age"]:
+            if not ("name" in line or "age" in line):
                 raise ValueError("Missing required parameters: 'name' and 'age' fields should be specified")
             line["timestamp"] = datetime.datetime.utcnow()
 
@@ -90,7 +90,7 @@ if __name__ == '__main__':
         'region': 'US',
         'staging_location': 'gs://task-gcp-374512/tmp',
         'temp_location': 'gs://task-gcp-374512/tmp',
-        'template_location': 'gs://task-gcp-374512/template/test-job',
+        'template_location': 'gs://task-gcp-374512/template/test-job_v2',
         'save_main_session': True,
         'streaming': True,
         'job_name': 'dataflow-custom-pipeline-v1',

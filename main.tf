@@ -195,6 +195,18 @@ resource "google_bigquery_table" "task-two-error-table" {
   ]
 }
 
+resource "google_bigquery_table" "task-two-error-table-test" {
+  dataset_id          = var.dataset_id
+  table_id            = "test_task_two_error_table_id"
+  schema              = file("schemas/bq_table_schema/task-2-error-raw.json")
+  deletion_protection = false
+
+  depends_on = [
+    google_bigquery_dataset.task_cf_dataset
+  ]
+}
+
+
 #resource "google_dataflow_job" "big_data_job" {
 #  name                  = "dataflow-job-task"
 #  template_gcs_path     = "gs://${google_storage_bucket_object.template_folder.bucket}/${google_storage_bucket_object.template_folder.name}test-job"
