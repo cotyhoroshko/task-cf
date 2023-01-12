@@ -39,9 +39,9 @@ class Parser(beam.DoFn):
             yield line
         except Exception as error:
             print("BEBA")
-            err_record = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
+            err_record = {"msg": str(line), "timestamp": datetime.datetime.utcnow()}
             yield beam.pvalue.TaggedOutput(self.ERROR_TAG, err_record)
-            raise error
+            # raise error
 
 
 def run(options, input_subscription, output_table, output_error_table):

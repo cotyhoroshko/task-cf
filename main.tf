@@ -195,18 +195,18 @@ resource "google_bigquery_table" "task-two-error-table" {
   ]
 }
 
-resource "google_dataflow_job" "big_data_job" {
-  name                  = "dataflow-job-task"
-  template_gcs_path     = "gs://${google_storage_bucket_object.template_folder.bucket}/${google_storage_bucket_object.template_folder.name}test-job"
-  temp_gcs_location     = "gs://${google_storage_bucket_object.temp_folder.bucket}/${google_storage_bucket_object.temp_folder.name}"
-#  service_account_email = "cloud-builder-account@task-gcp-374512.iam.gserviceaccount.com"
-
-  depends_on = [
-    google_project_service.api_services,
-    google_storage_bucket_object.temp_folder,
-    google_storage_bucket_object.template_folder
-  ]
-}
+#resource "google_dataflow_job" "big_data_job" {
+#  name                  = "dataflow-job-task"
+#  template_gcs_path     = "gs://${google_storage_bucket_object.template_folder.bucket}/${google_storage_bucket_object.template_folder.name}test-job"
+#  temp_gcs_location     = "gs://${google_storage_bucket_object.temp_folder.bucket}/${google_storage_bucket_object.temp_folder.name}"
+##  service_account_email = "cloud-builder-account@task-gcp-374512.iam.gserviceaccount.com"
+#
+#  depends_on = [
+#    google_project_service.api_services,
+#    google_storage_bucket_object.temp_folder,
+#    google_storage_bucket_object.template_folder
+#  ]
+#}
 
 
 #resource "google_bigquery_table" "" {
