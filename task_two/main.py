@@ -100,7 +100,7 @@ if __name__ == '__main__':
     run(
         options=pipeline_options,
         input_subscription="projects/task-gcp-374512/subscriptions/cf-subtask-sub",
-        output_table="task-gcp-3745124:task_cf_dataset.task_two_table",
+        output_table="task-gcp-374512:task_cf_dataset.task_two_table",
         output_error_table="task-gcp-374512:task_cf_dataset.task_two_error_table"
     )
 
