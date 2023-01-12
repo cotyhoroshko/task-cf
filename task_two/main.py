@@ -84,12 +84,12 @@ if __name__ == '__main__':
     pipeline_options.view_as(SetupOptions).save_main_session = True
     print("###", pipeline_options.__dict__)
     pipeline_options = {
-        'project': 'gcp-task-374415',
+        'project': 'task-gcp-374512',
         'runner': 'DataflowRunner',
         'region': 'US',
-        'staging_location': 'gs://gcp-task-374415/tmp',
-        'temp_location': 'gs://gcp-task-374415/tmp',
-        'template_location': 'gs://gcp-task-374415/template/test-job',
+        'staging_location': 'gs://task-gcp-374512/tmp',
+        'temp_location': 'gs://task-gcp-374512/tmp',
+        'template_location': 'gs://task-gcp-374512/template/test-job',
         'save_main_session': True,
         'streaming': True,
         'job_name': 'dataflow-custom-pipeline-v1',
@@ -98,14 +98,14 @@ if __name__ == '__main__':
     # run(pipeline_options, known_args.input_subscription, known_args.output_table, known_args.output_error_table)
     run(
         options=pipeline_options,
-        input_subscription="projects/gcp-task-374415/subscriptions/cf-subtask-sub",
-        output_table="gcp-task-3744154:task_cf_dataset.task_two_table",
-        output_error_table="gcp-task-374415:task_cf_dataset.task_two_error_table"
+        input_subscription="projects/task-gcp-374512/subscriptions/cf-subtask-sub",
+        output_table="task-gcp-3745124:task_cf_dataset.task_two_table",
+        output_error_table="task-gcp-374512:task_cf_dataset.task_two_error_table"
     )
 
 
 # python task_two/main.py
 #     --streaming
-#     --input_subscription projects/gcp-task-374415/subscriptions/cf-subtask-sub
-#     --output_table gcp-task-374415:task_cf_dataset.task_two_table
-#     --output_error_table gcp-task-374415:task_cf_dataset.task_two_error_table
+#     --input_subscription projects/task-gcp-374512/subscriptions/cf-subtask-sub
+#     --output_table task-gcp-374512:task_cf_dataset.task_two_table
+#     --output_error_table task-gcp-374512:task_cf_dataset.task_two_error_table

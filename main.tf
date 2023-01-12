@@ -1,8 +1,8 @@
 terraform {
   backend "gcs" {
-    bucket = "cloud-task"
+    bucket = "task-gcp"
   }
-  required_version = "1.3.6"
+  required_version = ">= 1.0.0"
 }
 
 provider "google" {
@@ -169,8 +169,8 @@ resource "google_pubsub_subscription" "cf-subtask-sub" {
 
 # gcloud iam service-accounts add-iam-policy-binding task-cf-370913@appspot.gserviceaccount.com --member 'allUsers' --role roles/iam.serviceAccountUser
 # access-service-account@task-cf-370913.iam.gserviceaccount.com
-# projects/gcp-task-374415/serviceAccounts/my-service-account@gcp-task-374415.iam.gserviceaccount.com
-# projects/gcp-task-374415/serviceAccounts/my-service-account@gcp-task-374415.iam.gserviceaccount.com
+# projects/task-gcp-374512/serviceAccounts/my-service-account@task-gcp-374512.iam.gserviceaccount.com
+# projects/task-gcp-374512/serviceAccounts/my-service-account@task-gcp-374512.iam.gserviceaccount.com
 
 
 resource "google_bigquery_table" "task-two-table" {
@@ -199,7 +199,7 @@ resource "google_bigquery_table" "task-two-error-table" {
 #  name                  = "dataflow-job-task"
 #  template_gcs_path     = "gs://${google_storage_bucket_object.template_folder.bucket}/${google_storage_bucket_object.template_folder.name}test-job"
 #  temp_gcs_location     = "gs://${google_storage_bucket_object.temp_folder.bucket}/${google_storage_bucket_object.temp_folder.name}"
-##  service_account_email = "cloud-builder-account@gcp-task-374415.iam.gserviceaccount.com"
+##  service_account_email = "cloud-builder-account@task-gcp-374512.iam.gserviceaccount.com"
 #
 #  depends_on = [
 #    google_project_service.api_services,

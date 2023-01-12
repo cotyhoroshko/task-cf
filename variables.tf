@@ -1,5 +1,5 @@
 variable "project_id" {
-  default     = "gcp-task-374415"
+  default     = "task-gcp-374512"
   type        = string
   description = "Project ID"
 }
