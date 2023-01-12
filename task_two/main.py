@@ -32,8 +32,8 @@ class Parser(beam.DoFn):
             print("!!!!!!!" * 4)
             line = json.loads(line.decode("utf-8"))
             print("#######", line)
-            if not ("name" in line or "age" in line):
-                raise
+            if not ("name" in line or "age" in line) and line["name"] and line["age"]:
+                raise ValueError("Missing required parameters: 'name' and 'age' fields should be specified")
             line["timestamp"] = datetime.datetime.utcnow()
 
             yield line
