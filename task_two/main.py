@@ -1,11 +1,9 @@
+import argparse
 import datetime
 import json
-import pdb
 
 import apache_beam as beam
-import argparse
 from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.options.pipeline_options import SetupOptions
 
 SCHEMA = ",".join(
     [
@@ -29,19 +27,15 @@ class Parser(beam.DoFn):
 
     def process(self, line):
         try:
-            print("!!!!!!!" * 4)
             line = json.loads(line.decode("utf-8"))
-            print("#######", line)
             if not ("name" in line or "age" in line):
                 raise ValueError("Missing required parameters: 'name' and 'age' fields should be specified")
             line["timestamp"] = datetime.datetime.utcnow()
-
             yield line
+
         except Exception as error:
-            print("BEBA")
-            err_record = {"msg": str(line), "timestamp": datetime.datetime.utcnow()}
+            err_record = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
             yield beam.pvalue.TaggedOutput(self.ERROR_TAG, err_record)
-            # raise error
 
 
 def run(options, input_subscription, output_table, output_error_table):
@@ -79,34 +73,50 @@ if __name__ == '__main__':
     parser.add_argument(
         '--output_error_table', required=True,
         help='Output BigQuery table for errors')
-    print("####")
-    known_args, pipeline_args = parser.parse_known_args()
-    pipeline_options = PipelineOptions(pipeline_args)
-    pipeline_options.view_as(SetupOptions).save_main_session = True
-    print("###", pipeline_options.__dict__)
+    parser.add_argument(
+        '--project', required=True,
+        help='Project Id')
+    parser.add_argument(
+        '--Region', required=False, default="US",
+        help='Region')
+    parser.add_argument(
+        '--job_name', required=False, default="dataflow-job-task-three",
+        help='Dataflow Job name')
+    parser.add_argument(
+        '--template_location', required=True,
+        help='Template location')
+    parser.add_argument(
+        '--staging_location', required=True,
+        help='Staging location')
+    parser.add_argument(
+        '--temp_location', required=True,
+        help='Temporary location')
+    parser.add_argument(
+        '--runner', required=False, default="DataflowRunner",
+        help='DF runner')
+    parser.add_argument(
+        '--setup_file', required=False, default="task_two/setup.py",
+        help='Setup file path')
+    parser.add_argument(
+        '--autoscaling_algorithm', required=False, default=None,
+        help='Autoscaling algorithm')
+
+    args = parser.parse_args()
     pipeline_options = {
-        'project': 'task-gcp-374512',
-        'runner': 'DataflowRunner',
-        'region': 'US',
-        'staging_location': 'gs://task-gcp-374512/tmp',
-        'temp_location': 'gs://task-gcp-374512/tmp',
-        'template_location': 'gs://task-gcp-374512/template/test-job',
+        'project': args.project,
+        'runner': args.runner,
+        'region': args.region,
+        'staging_location': args.staging_location,
+        'temp_location': args.temp_location,
+        'template_location': args.template_location,
         'save_main_session': True,
         'streaming': True,
-        'job_name': 'dataflow-job-task-three',
+        'job_name': args.job_name,
     }
     pipeline_options = PipelineOptions.from_dictionary(pipeline_options)
-    # run(pipeline_options, known_args.input_subscription, known_args.output_table, known_args.output_error_table)
     run(
         options=pipeline_options,
-        input_subscription="projects/task-gcp-374512/subscriptions/cf-subtask-sub",
-        output_table="task-gcp-374512:task_cf_dataset.task_two_table",
-        output_error_table="task-gcp-374512:task_cf_dataset.task_two_error_table"
+        input_subscription=args.input_subscription,
+        output_table=args.output_table,
+        output_error_table=args.output_error_table,
     )
-
-
-# python task_two/main.py
-#     --streaming
-#     --input_subscription projects/task-gcp-374512/subscriptions/cf-subtask-sub
-#     --output_table task-gcp-374512:task_cf_dataset.task_two_table
-#     --output_error_table task-gcp-374512:task_cf_dataset.task_two_error_table

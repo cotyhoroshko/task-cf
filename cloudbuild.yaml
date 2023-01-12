@@ -27,7 +27,7 @@ steps:
     name: 'gcr.io/task-gcp-374512/dataflow-python3:latest'
     entrypoint: 'python'
     args: [ '-m', 'task_two.main',
-            "--job_name=dataflow-job-task-v2",
+            "--job_name=dataflow-job-task-three",
             "--input_subscription=projects/task-gcp-374512/subscriptions/cf-subtask-sub",
             "--output_table=task-gcp-374512:task_cf_dataset.task_two_table",
             "--output_error_table=task-gcp-374512:task_cf_dataset.task_two_error_table",
