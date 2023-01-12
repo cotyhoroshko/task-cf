@@ -77,7 +77,7 @@ if __name__ == '__main__':
         '--project', required=True,
         help='Project Id')
     parser.add_argument(
-        '--Region', required=False, default="US",
+        '--region', required=False, default="US",
         help='Region')
     parser.add_argument(
         '--job_name', required=False, default="dataflow-job-task-three",
