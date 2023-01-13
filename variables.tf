@@ -23,7 +23,8 @@ variable "api_services" {
     "cloudbuild.googleapis.com",
     "cloudfunctions.googleapis.com",
     "pubsub.googleapis.com",
-    "dataflow.googleapis.com"
+    "dataflow.googleapis.com",
+    "composer.googleapis.com",
   ]
 
   # useful link : GCP List of API Services https://gist.github.com/coryodaniel/13eaee16a87a7fdca5e738123216862a

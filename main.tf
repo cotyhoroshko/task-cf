@@ -31,6 +31,47 @@ resource "google_project_iam_member" "project-cloud-build" {
   member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
 
+resource "google_project_iam_member" "project-airflow-composer" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:service-${data.google_project.project.number}@cloudcomposer-accounts.iam.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "project-airflow-composer-acc" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "project-airflow-composer-acc-worker" {
+  project = var.project_id
+  role    = "roles/composer.worker"
+  member  = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "project-cloudservices-acc" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudservices.gserviceaccount.com"
+}
+resource "google_project_iam_member" "project-cloudservices-acc-editor" {
+  project = var.project_id
+  role    = "roles/editor"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudservices.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "project-cloudservices-accd" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:task-gcp-374512@appspot.gserviceaccount.com"
+}
+
+# gcloud composer environments create task-three-env --location=us-central1 --image-version=composer-2.1.2-airflow-2.2.5 --scheduler-count=1
+
+#output "proj-numer" {
+#  value = data.google_project.project.number
+#}
+
 # trigger
 resource "google_cloudbuild_trigger" "github-trigger" {
   project  = var.project_id

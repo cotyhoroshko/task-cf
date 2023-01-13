@@ -1,3 +1,4 @@
 apache-beam
 apache-beam[gcp]
 google-apitools
+pytest
