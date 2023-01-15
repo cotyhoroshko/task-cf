@@ -30,7 +30,7 @@ variable "api_services" {
   # useful link : GCP List of API Services https://gist.github.com/coryodaniel/13eaee16a87a7fdca5e738123216862a
 }
 
-variable "dataset_id" {
+variable "dataset_name" {
   default     = "task_cf_dataset"
   type        = string
   description = "Dataset ID"
@@ -52,4 +52,34 @@ variable "task_two_error_table_id" {
   default     = "task_two_error_table"
   type        = string
   description = "Error table task 2 ID"
+}
+
+variable "airflow_output_dataset_name" {
+  default     = "airflow_output_dataset"
+  type        = string
+  description = "Airflow output table task 3"
+}
+
+variable "airflow_table_id" {
+  default     = "airflow_tabl"
+  type        = string
+  description = "Airflow table task 3 ID"
+}
+
+variable "airflow_bucket_name" {
+  default     = "airflow-task-bucket"
+  type        = string
+  description = "Airflow bucket task 3 name"
+}
+
+variable "af-composer-name" {
+  default = "dev-airflow-task-wnv"
+  type = string
+  description = "Airflow composer task 3 name"
+}
+
+variable "af-composer-location" {
+  default = "us-east4"
+  type = string
+  description = "Airflow composer task 3 location"
 }

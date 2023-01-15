@@ -100,7 +100,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   environment_variables = {
     GCP_PROJECT       = var.project_id
-    DATASET_ID        = var.dataset_id
+    DATASET_ID        = var.dataset_name
     OUTPUT_TABLE      = google_bigquery_table.task-cf-table.table_id
     PUBSUB_TOPIC_NAME = google_pubsub_topic.cf-subtask-topic.name
   }
@@ -163,6 +163,26 @@ resource "google_dataflow_job" "big_data_job" {
     google_storage_bucket_object.temp_folder,
     google_storage_bucket_object.template_folder
   ]
+}
+
+resource "google_cloudbuild_trigger" "github-trigger-af" {
+  project  = var.project_id
+  name     = "github-updates-trigger-af"
+  filename = "airflow_dags/cloudbuild.yaml"
+
+  github {
+    owner = "cotyhoroshko"
+    name  = "task-cf"
+    push {
+      branch = "^master"
+    }
+  }
+
+  substitutions = {
+    "_COMPOSER_ENV_NAME": var.af-composer-name,
+    "_COMPOSER_LOCATION": var.af-composer-location,
+    "_LOCATION": var.af-composer-location,
+  }
 }
 
 #guration: googleapi: Error 403: Caller is missing permission 'iam.serviceaccounts.actAs'

@@ -1,4 +1,4 @@
-apache-beam
-apache-beam[gcp]
-google-apitools
-pytest
+apache-beam==2.43.0
+apache-beam[gcp]==2.43.0
+google-apitools==0.5.32
+pytest==7.2.0
