@@ -1,65 +1,14 @@
+substitutions:
+  _DIR: composer/airflow_dags
+
 steps:
-#  - id: 'terraform init'
-#    name: 'hashicorp/terraform:1.3.6'
-#    entrypoint: sh
-#    args:
-#      - '-c'
-#      - 'terraform init -upgrade'
-#    waitFor: [ '-' ]
-#
-#  - id: 'terraform plan'
-#    name: 'hashicorp/terraform:1.3.6'
-#    entrypoint: sh
-#    args:
-#      - '-c'
-#      - 'terraform plan -lock=false -out=plan.out'
-#    waitFor: [ 'terraform init' ]
-#
-#  - id: 'terraform apply'
-#    name: 'hashicorp/terraform:1.3.6'
-#    entrypoint: sh
-#    args:
-#      - '-c'
-#      - 'terraform apply -lock=false plan.out'
-#    waitFor: [ 'terraform plan' ]
-
-  - id: "Unit tests"
-    name: python:3.9
-    args: [ "python","-m","pytest" ]
-
-  - id: "Create dataflow template"
-    name: 'gcr.io/task-gcp-374512/dataflow-python3:latest'
-    entrypoint: 'python'
-    args: [ '-m', 'task_two.main',
-            "--job_name=dataflow-job-task-three",
-            "--input_subscription=projects/task-gcp-374512/subscriptions/cf-subtask-sub",
-            "--output_table=task-gcp-374512:task_cf_dataset.task_two_table",
-            "--output_error_table=task-gcp-374512:task_cf_dataset.task_two_error_table",
-            "--project=task-gcp-374512",
-            "--region=US",
-            "--template_location=gs://task-gcp-374512/template/test-job",
-            "--staging_location=gs://task-gcp-374512/tmp/",
-            "--temp_location=gs://task-gcp-374512/tmp/",
-            "--runner=DataflowRunner",
-            "--setup_file='task_two/setup.py'",
-            "--autoscaling_algorithm=NONE"
-    ]
-#    waitFor: [
-#      'terraform apply'
-#    ]
-
-
-#python -m task_two.main --job_name=dataflow-job-task --input_subscription=projects/task-gcp-374512/subscriptions/cf-subtask-sub --output_table=task-gcp-374512:task_cf_dataset.task_two_table --output_error_table=task-gcp-374512:task_cf_dataset.task_two_error_table --project=task-gcp-374512 --region=US --template_location=gs://task-gcp-374512/template/test-job --staging_location=gs://task-gcp-374512/tmp/ --temp_location=gs://task-gcp-374512/tmp/  --runner=DataflowRunner --setup_file='task_two/setup.py' --autoscaling_algorithm=NONE
-#python -m task_two.main \
-#  --job_name=dataflow-job-task \
-#  --input_subscription=projects/task-gcp-374512/subscriptions/cf-subtask-sub \
-#  --output_table=task-gcp-374512:task_cf_dataset.task_two_table \
-#  --output_error_table=task-gcp-374512:task_cf_dataset.task_two_error_table \
-#  --project=task-gcp-374512 \
-#  --region=US \
-#  --template_location=gs://task-gcp-374512/template/test-job \
-#  --staging_location=gs://task-gcp-374512/tmp/  \
-#  --temp_location=gs://task-gcp-374512/tmp/ \
-#  --runner=DataflowRunner \
-#  --setup_file='task_two/setup.py' \
-#  --autoscaling_algorithm=NONE
+  - id: 'rsync airflow jobs'
+    name: 'gcr.io/cloud-builders/gsutil'
+    dir: '${_DIR}/${_APP}'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        composerBucket=$(gcloud composer environments describe ${_COMPOSER_ENV_NAME} --location ${_COMPOSER_LOCATION} --format="get(config.dagGcsPrefix)")
+        gsutil -m rsync -d -r -c -x "tests/.*|.*\.pyc$|cloudbuild\.yaml|README\.md|pyproject\.toml|poetry\.lock" . ${composerBucket}/${_APP}/
+tags: ['aspire-service-${_APP}-airflow']
