@@ -4,12 +4,12 @@ substitutions:
 steps:
   - id: 'rsync airflow jobs'
     name: 'gcr.io/cloud-builders/gsutil'
-#    dir: '${_DIR}/${_APP}'
+    dir: ${_APP}'
     entrypoint: bash
     args:
       - '-c'
       - |
         composerBucket=$(gcloud composer environments describe ${_COMPOSER_ENV_NAME} --location 'us-east4' --format="get(config.dagGcsPrefix)")
-        gsutil -m rsync -d -r -c -x "tests/.*|.*\.pyc$|cloudbuild\.yaml|README\.md|pyproject\.toml|poetry\.lock" airflow_dags ${composerBucket}/dags/
+        gsutil -m rsync -d -r -c -x "tests/.*|.*\.pyc$|cloudbuild\.yaml|README\.md|pyproject\.toml|poetry\.lock" . ${composerBucket}/dags/
 tags: ['aspire-service-${_APP}-airflow']
 #composerBucket=$(gcloud composer environments describe ${_COMPOSER_ENV_NAME} --location ${_COMPOSER_LOCATION} --format="get(config.dagGcsPrefix)")
