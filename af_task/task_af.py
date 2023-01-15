@@ -17,19 +17,18 @@ with DAG(
             **DEFAULT_DAG_ARGS,
         },
 ) as dag:
-
     PROJECT_ID = os.getenv('GCP_PROJECT')
     ENV = PROJECT_ID[-3:]
     CORE_CATALOGUE_ENV = "stg" if ENV == "dev" else ENV
 
-    AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.your_input_dataset_name"
-    AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.your-input-table-reporting"
+    AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_cf_dataset"
+    AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.task_two_table"
 
-    AF_TASK_OUTPUT_DATASET_NAME = f"project-name.your_output_dataset_name"
-    AF_TASK_OUTPUT_TABLE = f"{AF_TASK_OUTPUT_DATASET_NAME}.your-output-table-reporting"
+    AF_TASK_OUTPUT_DATASET_NAME = f"{PROJECT_ID}.airflow_output_dataset"
+    AF_TASK_OUTPUT_TABLE = f"{AF_TASK_OUTPUT_DATASET_NAME}.airflow_table"
 
-    gcs_bucket_name = f"gs://{PROJECT_ID}-your-bucket-name/"
-    gcs_file_name = 'your_file_name.json'
+    gcs_bucket_name = f"gs://{PROJECT_ID}/"
+    gcs_file_name = f"af_task{datetime.utcnow()}.json"
     gcs_file_full_name = f"{gcs_bucket_name}{gcs_file_name}"
 
     # BigQuery Task
@@ -52,6 +51,5 @@ with DAG(
         source_project_dataset_table=AF_TASK_OUTPUT_TABLE,
         destination_cloud_storage_uris=gcs_file_full_name,
         export_format='NEWLINE_DELIMITED_JSON')
-
 
     airflow_BQ_task >> airflow_GCS_task

@@ -61,7 +61,7 @@ variable "airflow_output_dataset_name" {
 }
 
 variable "airflow_table_id" {
-  default     = "airflow_tabl"
+  default     = "airflow_table"
   type        = string
   description = "Airflow table task 3 ID"
 }
