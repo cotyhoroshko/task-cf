@@ -12,6 +12,6 @@
   {
     "name": "timestamp",
     "type": "TIMESTAMP",
-    "mode": "REQUIRED"
+    "mode": "NULLABLE"
   }
 ]
