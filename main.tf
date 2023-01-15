@@ -168,7 +168,7 @@ resource "google_dataflow_job" "big_data_job" {
 resource "google_cloudbuild_trigger" "github-trigger-af" {
   project  = var.project_id
   name     = "github-updates-trigger-af"
-  filename = "airflow_dags/cloudbuild.yaml"
+  filename = "af_task/cloudbuild.yaml"
 
   github {
     owner = "cotyhoroshko"
