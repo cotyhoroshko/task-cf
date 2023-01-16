@@ -1,10 +1,11 @@
 WITH
 airflow_data AS (
     SELECT
-        name,
+        *,
         CHAR_LENGTH(name) as length
-        CURRENT_TIMESTAMP() as timestamp
     FROM
-        `{{ params.AF_TASK_INPUT_TABLE }}`
+        `{{ params.AF_TASK_INPUT_TABLE }}` output_table
+    WHERE
+        output_table.timestamp > DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL -1 HOUR)
 )
 SELECT * FROM airflow_data
