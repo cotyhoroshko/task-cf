@@ -1,8 +1,9 @@
 WITH
 airflow_data AS (
     SELECT
-        *,
-        CHAR_LENGTH(name) as length
+        output_table.name,
+        CHAR_LENGTH(name) as length,
+        output_table.timestamp
     FROM
         `{{ params.AF_TASK_INPUT_TABLE }}` output_table
     WHERE
