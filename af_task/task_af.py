@@ -11,13 +11,13 @@ DEFAULT_DAG_ARGS = {
 
 with DAG(
         "airflow_last_hour_job",
-        schedule_interval="27 * * * *",
+        schedule_interval="17 * * * *",
         default_args={
-            'start_date': datetime(2023, 1, 16),
+            'start_date': datetime(2023, 1, 17),
             **DEFAULT_DAG_ARGS,
         },
 ) as dag:
-    PROJECT_ID = os.getenv('GCP_PROJECT')
+    PROJECT_ID = os.getenv("GCP_PROJECT")
 
     AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_cf_dataset"
     AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.task_two_table"
@@ -45,9 +45,9 @@ with DAG(
 
     # GCS Writing Tasks
     airflow_GCS_task = BigQueryToCloudStorageOperator(
-        task_id='af_task_GCS_job',
+        task_id="af_task_GCS_job",
         source_project_dataset_table=AF_TASK_OUTPUT_TABLE,
         destination_cloud_storage_uris=gcs_file_full_name,
-        export_format='NEWLINE_DELIMITED_JSON')
+        export_format="NEWLINE_DELIMITED_JSON")
 
     airflow_BQ_task >> airflow_GCS_task
