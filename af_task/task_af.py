@@ -11,7 +11,7 @@ DEFAULT_DAG_ARGS = {
 
 with DAG(
         "airflow_last_hour_job",
-        schedule_interval="17 * * * *",
+        schedule_interval="15 * * * *",
         default_args={
             'start_date': datetime(2023, 1, 17),
             **DEFAULT_DAG_ARGS,
