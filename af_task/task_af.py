@@ -10,16 +10,14 @@ DEFAULT_DAG_ARGS = {
 }
 
 with DAG(
-        "airflow_task_job_0010",
-        schedule_interval="0 * * * *",
+        "airflow_last_hour_job",
+        schedule_interval="26 * * * *",
         default_args={
             'start_date': datetime(2023, 1, 16),
             **DEFAULT_DAG_ARGS,
         },
 ) as dag:
     PROJECT_ID = os.getenv('GCP_PROJECT')
-    ENV = PROJECT_ID[-3:]
-    CORE_CATALOGUE_ENV = "stg" if ENV == "dev" else ENV
 
     AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_cf_dataset"
     AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.task_two_table"

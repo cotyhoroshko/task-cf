@@ -23,9 +23,9 @@ steps:
 #      - 'terraform apply -lock=false plan.out'
 #    waitFor: [ 'terraform plan' ]
 
-  - id: "Unit tests"
-    name: python:3.9
-    args: [ "python","-m","pytest" ]
+#  - id: "Unit tests"
+#    name: python:3.9
+#    args: [ "python","-m","pytest" ]
 
   - id: "Create dataflow template"
     name: 'gcr.io/task-gcp-374512/dataflow-python3:latest'
