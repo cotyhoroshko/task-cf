@@ -11,7 +11,7 @@ DEFAULT_DAG_ARGS = {
 
 with DAG(
         "af_last_hour_job",
-        schedule_interval="44 * * * *",
+        schedule_interval="45 * * * *",
         default_args={
             'start_date': datetime(2023, 1, 17),
             **DEFAULT_DAG_ARGS,
